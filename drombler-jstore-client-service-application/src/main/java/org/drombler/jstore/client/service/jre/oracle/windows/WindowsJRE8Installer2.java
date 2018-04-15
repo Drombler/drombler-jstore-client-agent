@@ -1,4 +1,4 @@
-package org.drombler.jstore.client.service.jre.windows;
+package org.drombler.jstore.client.service.jre.oracle.windows;
 
 import com.machinepublishers.jbrowserdriver.JBrowserDriver;
 
@@ -10,16 +10,9 @@ import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;

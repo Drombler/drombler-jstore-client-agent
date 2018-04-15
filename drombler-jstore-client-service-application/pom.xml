@@ -35,6 +35,10 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>org.drombler.commons</groupId>
+            <artifactId>drombler-commons-client-startup-main</artifactId>
+        </dependency>
         <!--<dependency>-->
             <!--<groupId>org.slf4j</groupId>-->
             <!--<artifactId>slf4j-api</artifactId>-->

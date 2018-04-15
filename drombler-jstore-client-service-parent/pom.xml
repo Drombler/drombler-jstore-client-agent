@@ -72,6 +72,9 @@ Contributor(s): .
         <!-- URL to use with the GitHub site plugin -->
         <!--<distributionManagement.parent.url>${project.version}/docs/site</distributionManagement.parent.url>-->
         <!--<url.parent>http://www.drombler.org/drombler-fx/${project.version}/docs/site</url.parent>-->
+
+        <!-- Dependency Versions Defaults -->
+        <drombler-commons.version>0.12-SNAPSHOT</drombler-commons.version>
     </properties>
 
     <!-- Not inherited!?? -->
@@ -96,4 +99,16 @@ Contributor(s): .
             </plugins>
         </pluginManagement>
     </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.drombler.commons</groupId>
+                <artifactId>drombler-commons</artifactId>
+                <version>${drombler-commons.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

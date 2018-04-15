@@ -1,4 +1,4 @@
-package org.drombler.jstore.client.service.jre.windows;
+package org.drombler.jstore.client.service.jre.oracle.windows;
 
 //import jdk.incubator.http.HttpClient;
 //import jdk.incubator.http.HttpRequest;
@@ -6,17 +6,7 @@ package org.drombler.jstore.client.service.jre.windows;
 import org.drombler.jstore.client.service.jre.JREInstaller;
 
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**
