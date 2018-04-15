@@ -139,6 +139,38 @@
     </dependencies>
 
     <build>
+        <pluginManagement>
+        <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.6.0</version>
+            <executions>
+                <execution>
+                    <id>default-cli</id>
+                    <goals>
+                        <goal>java</goal>
+                    </goals>
+                    <configuration>
+                        <mainClass>org.drombler.jstore.client.service.JStoreClientServiceApplication</mainClass>
+                        <commandlineArgs>--add-modules jdk.incubator.httpclient --list-modules</commandlineArgs>
+                        <!--<arguments>-->
+                            <!--<argument>-classpath</argument>-->
+                            <!--&lt;!&ndash; automatically creates the classpath using all project dependencies,-->
+                                 <!--also adding the project build directory &ndash;&gt;-->
+                            <!--<classpath/>-->
+                            <!--<argument>&#45;&#45;add-modules</argument>-->
+                            <!--<argument>jdk.incubator.httpclient</argument>-->
+                            <!--<argument>org.drombler.jstore.client.service.JStoreClientServiceApplication</argument>-->
+                        <!--</arguments>-->
+                        <!--<workingDirectory>${project.build.directory}</workingDirectory>-->
+                                                <!--<classpathScope>runtime</classpathScope>-->
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+        </plugins>
+        </pluginManagement>
         <plugins>
             <!--<plugin>-->
                 <!--<groupId>org.apache.maven.plugins</groupId>-->
@@ -185,58 +217,58 @@
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <id>wildfly-swarm</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.wildfly.swarm</groupId>
-                        <artifactId>wildfly-swarm-plugin</artifactId>
-                        <version>${version.wildfly.swarm}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>package</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly.swarm</groupId>
-                    <artifactId>jaxrs</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.wildfly.swarm</groupId>
-                    <artifactId>cdi</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.wildfly.swarm</groupId>
-                    <artifactId>cdi-config</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.wildfly.swarm</groupId>
-                    <artifactId>jpa</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.wildfly.swarm</groupId>
-                    <artifactId>datasources</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.wildfly.swarm</groupId>
-                    <artifactId>transactions</artifactId>
-                </dependency>
+    <!--<profiles>-->
+        <!--<profile>-->
+            <!--<id>wildfly-swarm</id>-->
+            <!--<build>-->
+                <!--<plugins>-->
+                    <!--<plugin>-->
+                        <!--<groupId>org.wildfly.swarm</groupId>-->
+                        <!--<artifactId>wildfly-swarm-plugin</artifactId>-->
+                        <!--<version>${version.wildfly.swarm}</version>-->
+                        <!--<executions>-->
+                            <!--<execution>-->
+                                <!--<goals>-->
+                                    <!--<goal>package</goal>-->
+                                <!--</goals>-->
+                            <!--</execution>-->
+                        <!--</executions>-->
+                    <!--</plugin>-->
+                <!--</plugins>-->
+            <!--</build>-->
+            <!--<dependencies>-->
+                <!--<dependency>-->
+                    <!--<groupId>org.wildfly.swarm</groupId>-->
+                    <!--<artifactId>jaxrs</artifactId>-->
+                <!--</dependency>-->
+                <!--<dependency>-->
+                    <!--<groupId>org.wildfly.swarm</groupId>-->
+                    <!--<artifactId>cdi</artifactId>-->
+                <!--</dependency>-->
+                <!--<dependency>-->
+                    <!--<groupId>org.wildfly.swarm</groupId>-->
+                    <!--<artifactId>cdi-config</artifactId>-->
+                <!--</dependency>-->
+                <!--<dependency>-->
+                    <!--<groupId>org.wildfly.swarm</groupId>-->
+                    <!--<artifactId>jpa</artifactId>-->
+                <!--</dependency>-->
+                <!--<dependency>-->
+                    <!--<groupId>org.wildfly.swarm</groupId>-->
+                    <!--<artifactId>datasources</artifactId>-->
+                <!--</dependency>-->
+                <!--<dependency>-->
+                    <!--<groupId>org.wildfly.swarm</groupId>-->
+                    <!--<artifactId>transactions</artifactId>-->
+                <!--</dependency>-->
 
 
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <version>${h2.version}</version>
-                </dependency>	
-            </dependencies>
-        </profile>
-    </profiles>
+                <!--<dependency>-->
+                    <!--<groupId>com.h2database</groupId>-->
+                    <!--<artifactId>h2</artifactId>-->
+                    <!--<version>${h2.version}</version>-->
+                <!--</dependency>	-->
+            <!--</dependencies>-->
+        <!--</profile>-->
+    <!--</profiles>-->
 </project>

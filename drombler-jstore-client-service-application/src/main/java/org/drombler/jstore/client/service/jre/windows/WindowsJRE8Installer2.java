@@ -2,10 +2,13 @@ package org.drombler.jstore.client.service.jre.windows;
 
 import com.machinepublishers.jbrowserdriver.JBrowserDriver;
 
+import jdk.incubator.http.HttpClient;
+import org.drombler.jstore.client.service.commons.HttpClientUtils;
 import org.drombler.jstore.client.service.jre.JREInstaller;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -23,19 +26,34 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 /**
+ * see https://github.com/docker-library/official-images/issues/625
  *
+ *
+ Ubuntu stopped distributing it in the sun-java6 package when Oracle retired the "Operating System Distributor License for Java" (lists.ubuntu.com).
+ The webupd8 ppa for Ubuntu and Debian requires the user to accept the Oracle license in order for their software to download and install Oracle java (webupd8,org).
+ Gentoo has a fetch-restriction that requires the user to go to the Oracle website to download the Java tar manually which inclues accepting the license (wiki.gentoo.org).
+ CentOS requires users to go and download the rpm provided by Oracle at java.com and thus accept the Oracle license (wiki.centos.org).
+ RedHat provides instructions to add a repo maintained by Oracle (access.redhat.com).
+
+ As all of the major upstream Linux distributions are unable to redistribute Oracle java in their own distribution channels, I think it would be wise if we did the same.
+
+
+
+ https://gist.github.com/P7h/9741922
  * @author puce
  */
 public class WindowsJRE8Installer2 implements JREInstaller {
 
     private final JBrowserDriver driver;
+    private HttpClient httpClient;
 
-    public WindowsJRE8Installer2(JBrowserDriver driver){
+    public WindowsJRE8Installer2(JBrowserDriver driver, HttpClient httpClient){
         this.driver = driver;
+        this.httpClient = httpClient;
     }
     
     @Override
-    public void installJRE(Path installationDirPath) {
+    public void installJRE(Path installationDirPath) throws InterruptedException, ExecutionException, TimeoutException, IOException {
 
         // This will block for the page load and any
         // associated AJAX requests
@@ -51,20 +69,25 @@ public class WindowsJRE8Installer2 implements JREInstaller {
 //        System.out.println(driver.getPageSource());
         WebDriverWait wait = new WebDriverWait(driver, 100);
         acceptAgreement(wait);
+        System.out.println("Cookies before: "+driver.manage().getCookies());
         driver.executeScript("disableDownloadAnchors(document, false, 'jre-8u161-oth-JPR'); hideAgreementDiv(document, 'jre-8u161-oth-JPR'); writeSessionCookie( 'oraclelicense', 'accept-securebackup-cookie' );");
-//        WebElement radioInput2= wait.until(ExpectedConditions.presenceOfElementLocated(By.partialLinkText("Accept License Agreement")));
+        System.out.println("Cookies after: "+driver.manage().getCookies());
+        //        WebElement radioInput2= wait.until(ExpectedConditions.presenceOfElementLocated(By.partialLinkText("Accept License Agreement")));
 //radioInput.click();
 //        WebElement link = wait.until(ExpectedConditions.elementToBeClickable(By.partialLinkText("jre-8u161-windows-x64.tar.gz")));
         WebElement link = wait.until(ExpectedConditions.presenceOfElementLocated(By.partialLinkText("jre-8u161-windows-x64.tar.gz")));
 //        wait.until(ExpectedConditions.attributeToBe(link, "onClick", null));
         wait.until(ExpectedConditions.attributeContains(link, "href", "jre"));
-
+        System.out.println(link.getText());
         System.out.println("href="+link.getAttribute("href"));
         System.out.println("onClick="+link.getAttribute("onClick"));
-        link.click();
 
+//        link.click();
 //        driver.get(link.getAttribute("href"));
 
+        HttpClientUtils.importCookies(httpClient, driver);
+        HttpClientUtils.downloadFile(httpClient, URI.create(link.getAttribute("href")),
+                installationDirPath.resolve(link.getText()));
     }
 
     private void acceptAgreement(WebDriverWait wait) {
@@ -73,12 +96,15 @@ public class WindowsJRE8Installer2 implements JREInstaller {
         WebElement radioInput = agreementDivElement.findElements(By.tagName("input")).get(0);
         System.out.println(radioInput.getText());
         System.out.println(radioInput.getAttribute("onClick"));
+        System.out.println("checked="+radioInput.getAttribute("checked"));
         System.out.println("Selected: "+radioInput.isSelected());
         radioInput.click();
 //        wait.until(ExpectedConditions.invisibilityOf(radioInput));
         WebElement thankYouDivElement= wait.until(ExpectedConditions.presenceOfElementLocated(By.id("thankYouDivjre-8u161-oth-JPR")));
 
         System.out.println("Selected: "+radioInput.isSelected());
+        System.out.println("checked="+radioInput.getAttribute("checked"));
+
     }
 
     @Override

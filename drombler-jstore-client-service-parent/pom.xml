@@ -87,6 +87,10 @@ Contributor(s): .
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
                         <release>${java.min.version}</release>
+                        <compilerArgs>
+                            <arg>--add-modules</arg>
+                            <arg>jdk.incubator.httpclient</arg>
+                        </compilerArgs>
                     </configuration>
                 </plugin>
             </plugins>
