@@ -1,6 +1,5 @@
 package org.drombler.jstore.client.service.commons;
 
-import com.machinepublishers.jbrowserdriver.JBrowserDriver;
 import jdk.incubator.http.HttpClient;
 import jdk.incubator.http.HttpRequest;
 import jdk.incubator.http.HttpResponse;
@@ -10,35 +9,17 @@ import java.net.HttpCookie;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class HttpClientUtils {
 
-    public static void importCookies(HttpClient httpClient, JBrowserDriver driver){
-        driver.manage().getCookies().forEach(cookie -> {
-            HttpCookie httpCookie = new HttpCookie(cookie.getName(), cookie.getValue());
-            httpCookie.setDomain(cookie.getDomain());
-            httpCookie.setPath(cookie.getPath());
-            httpCookie.setHttpOnly(cookie.isHttpOnly());
-            httpCookie.setSecure(cookie.isSecure());
-            httpClient.cookieManager().get().getCookieStore().add(null, httpCookie);
-        });
-        System.out.println(httpClient.cookieManager().get().getCookieStore().getCookies());
-        HttpCookie oraclelicense = httpClient.cookieManager().get().getCookieStore().getCookies().stream()
-                .filter(httpCookie -> httpCookie.getName().equals("oraclelicense"))
-                .findFirst().get();
-        System.out.println(oraclelicense.hasExpired());
-    }
 
     public static void downloadFile(HttpClient httpClient, URI uri, Path targetFile) throws InterruptedException, ExecutionException, TimeoutException, IOException {
-        HttpCookie oraclelicense = httpClient.cookieManager().get().getCookieStore().getCookies().stream()
-                .filter(httpCookie -> httpCookie.getName().equals("oraclelicense"))
-                .findFirst().get();
+//        HttpCookie oraclelicense = httpClient.cookieManager().get().getCookieStore().getCookies().stream()
+//                .filter(httpCookie -> httpCookie.getName().equals("oraclelicense"))
+//                .findFirst().get();
+        HttpCookie oraclelicense = new HttpCookie("oraclelicense", "accept-securebackup-cookie");
         HttpRequest request = HttpRequest.newBuilder()
                     .uri(uri)
 //                    .timeout(Duration.of(10, ChronoUnit.MINUTES))

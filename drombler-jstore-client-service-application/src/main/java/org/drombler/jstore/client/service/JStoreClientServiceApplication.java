@@ -1,21 +1,11 @@
 package org.drombler.jstore.client.service;
 
-import jdk.incubator.http.HttpClient;
-import org.drombler.commons.client.startup.main.*;
+import org.drombler.commons.client.startup.main.ApplicationInstanceListener;
+import org.drombler.commons.client.startup.main.CommandLineArgs;
+import org.drombler.commons.client.startup.main.DromblerClientConfiguration;
+import org.drombler.commons.client.startup.main.DromblerClientStarter;
 
-import java.net.CookieManager;
-import java.net.ProxySelector;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
-import com.machinepublishers.jbrowserdriver.Timezone;
-import com.machinepublishers.jbrowserdriver.JBrowserDriver;
-import com.machinepublishers.jbrowserdriver.Settings;
-import org.drombler.jstore.client.service.jre.oracle.windows.WindowsJRE8Installer2;
-
-import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
 
 /**
  *

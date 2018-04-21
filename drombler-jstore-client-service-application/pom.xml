@@ -3,20 +3,23 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.drombler.jstore.client.service</groupId>
-        <artifactId>drombler-jstore-client-service</artifactId>
+        <artifactId>drombler-jstore-client-service-parent</artifactId>
         <version>0.1-SNAPSHOT</version>
+        <relativePath>../drombler-jstore-client-service-parent/pom.xml</relativePath>
     </parent>
     <artifactId>drombler-jstore-client-service-application</artifactId>
     <packaging>jar</packaging>
 
     <name>Drombler JStore Client Service - Application</name>
     <description></description>
+    <inceptionYear>2018</inceptionYear>
     <properties>
         <!--<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>-->
         <!--<liquibase.version>3.4.2</liquibase.version>-->
         <!--<jee.version>7.0</jee.version>-->
         <!--<version.wildfly.swarm>2017.8.1</version.wildfly.swarm>-->
         <!--<h2.version>1.4.191</h2.version>-->
+        <jersey.version>2.27</jersey.version>
     </properties>
     
     
@@ -44,16 +47,30 @@
             <!--<artifactId>slf4j-api</artifactId>-->
             <!--<version>1.7.22</version>-->
         <!--</dependency>-->
+
         <dependency>
-            <groupId>com.machinepublishers</groupId>
-            <artifactId>jbrowserdriver</artifactId>
-            <version>1.0.0-RC1</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.5</version>
         </dependency>
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-support</artifactId>
-            <version>3.8.1</version>
+            <groupId>org.drombler.jstore.protocol</groupId>
+            <artifactId>drombler-jstore-protocol</artifactId>
+            <version>0.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>org.glassfish.jersey.core</groupId>-->
+        <!--<artifactId>jersey-client</artifactId>-->
+        <!--<version>${jersey.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.glassfish.jersey.media</groupId>-->
+        <!--<artifactId>jersey-media-json-jackson</artifactId>-->
+        <!--<version>${jersey.version}</version>-->
+        <!--</dependency>-->
+
 
         <!--<dependency>-->
             <!--<groupId>org.liquibase</groupId>-->
