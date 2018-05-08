@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.drombler.jstore.client.service</groupId>
@@ -21,8 +22,7 @@
         <!--<h2.version>1.4.191</h2.version>-->
         <jersey.version>2.27</jersey.version>
     </properties>
-    
-    
+
 
     <!--<dependencyManagement>-->
         <!--<dependencies>-->
@@ -39,13 +39,23 @@
 
     <dependencies>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>drombler-jstore-client-service-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.drombler.commons</groupId>
             <artifactId>drombler-commons-client-startup-main</artifactId>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.slf4j</groupId>-->
-            <!--<artifactId>slf4j-api</artifactId>-->
-            <!--<version>1.7.22</version>-->
+        <!--<groupId>${project.groupId}</groupId>-->
+        <!--<artifactId>drombler-jstore-client-service-browserdriver</artifactId>-->
+        <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.slf4j</groupId>-->
+        <!--<artifactId>slf4j-api</artifactId>-->
+        <!--<version>1.7.22</version>-->
         <!--</dependency>-->
 
         <dependency>
@@ -109,7 +119,7 @@
             <artifactId>weld</artifactId>
             <version>${wildfly-swarm.version}</version>
         </dependency>-->
-        
+
         <!--        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

@@ -1,0 +1,85 @@
+{
+  "$id": "http://www.drombler.org/drombler-jstore-protocol/Definitions.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "definitions": {
+    "store": {
+      "$id": "/definitions/store",
+      "type": "object",
+      "title": "The application store",
+      "description": "The application store which manages the applications. Vendor IDs are store specific.",
+      "properties": {
+        "storeInfo": {
+          "$id": "/definitions/store/properties/storeInfo",
+          "type": "object",
+          "$ref": "#/definitions/storeInfo"
+        },
+        "applicationIds": {
+          "$id": "/properties/applicationIds",
+          "type": "array",
+          "items": {
+            "$id": "/properties/applicationIds/items",
+            "type": "object",
+            "$ref": "#/definitions/applicationId"
+          }
+        }
+      }
+    },
+    "storeInfo": {
+      "$id": "/definitions/storeInfo",
+      "type": "object",
+      "title": "The application store info",
+      "description": "The info about an application store.",
+      "properties": {
+        "storeId": {
+          "$id": "/definitions/storeInfo/properties/storeId",
+          "type": "string",
+          "title": "The store id",
+          "description": "The store id of the store which uniquely identifies an application store.",
+          "default": "",
+          "examples": [
+            "jstore"
+          ]
+        },
+        "endpoint": {
+          "$id": "/definitions/storeInfo/properties/endpoint",
+          "type": "string",
+          "title": "The endpoint of the application store",
+          "description": "The endpoint of the REST resources of the application store.",
+          "default": "",
+          "examples": [
+            "http://jstore.drombler.com/webresources"
+          ]
+        }
+      }
+    },
+    "applicationId": {
+      "$id": "/definitions/applicationId",
+      "type": "object",
+      "title": "The application id",
+      "description": "The application id which uniquely identifies an application.",
+      "properties": {
+        "vendorId": {
+          "$id": "/definitions/applicationId/properties/vendorId",
+          "type": "string",
+          "title": "The vendor id",
+          "description": "The vendor id of the store which uniquely identifies a vendor in the store.",
+          "default": "",
+          "examples": [
+            "drombler"
+          ]
+        },
+        "vendorApplicationId": {
+          "$id": "/definitions/applicationId/properties/vendorApplicationId",
+          "type": "string",
+          "title": "The vendor application id",
+          "description": "The vendor specific application id which uniquely identifies an application of the vendor.",
+          "default": "",
+          "examples": [
+            "drombler-jstore-client"
+          ]
+        }
+      }
+    }
+  }
+}

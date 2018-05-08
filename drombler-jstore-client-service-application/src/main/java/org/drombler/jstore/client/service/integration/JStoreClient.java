@@ -28,7 +28,8 @@ public class JStoreClient {
         requestPayload.setApplicationIds(applicationIds);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://jstore.drombler.com"))
+//                .uri(URI.create("http://jstore.drombler.com"))
+                .uri(URI.create("http://localhost:8042/webresources/v1/application-version-search"))
 //                    .timeout(Duration.of(10, ChronoUnit.MINUTES))
                 .setHeader(StandardHttpHeaderFieldNames.ACCEPT, StandardMimeTypes.APPLICATION_JSON)
                 .setHeader(StandardHttpHeaderFieldNames.CONTENT_TYPE, StandardMimeTypes.APPLICATION_JSON)

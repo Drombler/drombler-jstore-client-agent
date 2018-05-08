@@ -26,7 +26,7 @@ public class JStoreClientServiceApplication extends DromblerClientStarter<Drombl
 
     public JStoreClientServiceApplication(DromblerClientConfiguration configuration){
         super(configuration);
-        addAdditionalStarters(new UpdateSchedulerStarter());
+        addAdditionalStarters(new UpdateSchedulerStarter(configuration));
     }
 
     @Override
