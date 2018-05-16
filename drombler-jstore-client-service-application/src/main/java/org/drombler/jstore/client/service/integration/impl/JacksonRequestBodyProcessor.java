@@ -1,4 +1,4 @@
-package org.drombler.jstore.client.service.integration;
+package org.drombler.jstore.client.service.integration.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

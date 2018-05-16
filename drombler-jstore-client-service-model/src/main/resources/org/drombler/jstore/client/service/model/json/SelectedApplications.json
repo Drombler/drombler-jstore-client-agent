@@ -1,5 +1,5 @@
 {
-  "$id": "http://www.drombler.org/drombler-jstore-protocol/ApplicationVersionSearchRequest.json",
+  "$id": "http://www.drombler.org/drombler-jstore-client-service/SelectedApplications.json",
   "type": "object",
   "definitions": {},
   "$schema": "http://json-schema.org/draft-07/schema#",

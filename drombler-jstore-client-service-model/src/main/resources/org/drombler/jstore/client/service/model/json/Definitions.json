@@ -57,7 +57,7 @@
       "$id": "/definitions/applicationId",
       "type": "object",
       "title": "The application id",
-      "description": "The application id which uniquely identifies an application.",
+      "description": "The application id which uniquely identifies an application in a store.",
       "properties": {
         "vendorId": {
           "$id": "/definitions/applicationId/properties/vendorId",

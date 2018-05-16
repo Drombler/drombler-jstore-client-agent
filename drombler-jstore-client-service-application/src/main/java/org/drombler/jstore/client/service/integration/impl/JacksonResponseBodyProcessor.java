@@ -1,4 +1,4 @@
-package org.drombler.jstore.client.service.integration;
+package org.drombler.jstore.client.service.integration.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jdk.incubator.http.HttpResponse.BodyProcessor;

@@ -44,7 +44,7 @@
     <modules>
         <module>drombler-jstore-client-service-parent</module>
         <module>drombler-jstore-client-service-application</module>
-        <module>drombler-jstore-client-server-browserdriver</module>
+        <module>drombler-jstore-client-service-browserdriver</module>
         <module>drombler-jstore-client-service-model</module>
     </modules>
 

@@ -4,106 +4,100 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jdk.incubator.http.HttpClient;
 import org.drombler.commons.client.startup.main.BootServiceStarter;
 import org.drombler.commons.client.startup.main.DromblerClientConfiguration;
-import org.drombler.jstore.client.service.integration.JStoreClient;
-import org.drombler.jstore.client.service.jre.oracle.windows.WindowsJRE8Installer2;
-import org.drombler.jstore.client.service.model.json.InstalledApplications;
-import org.drombler.jstore.protocol.json.ApplicationId;
-import org.drombler.jstore.protocol.json.ApplicationVersionInfo;
+import org.drombler.jstore.client.service.commons.HttpClientUtils;
+import org.drombler.jstore.client.service.integration.JStoreClientRegistry;
+import org.drombler.jstore.client.service.model.Store;
+import org.drombler.jstore.client.service.model.StoreRegistry;
+import org.drombler.jstore.client.service.model.json.SelectedApplicationsType;
+import org.drombler.jstore.client.service.model.json.StoreType;
 
-import java.net.CookieManager;
-import java.net.ProxySelector;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.*;
 
 public class UpdateSchedulerStarter implements BootServiceStarter {
     /**
      * The property name used to specify an URL to the configuration property file to be used for the created the framework instance.
      */
-    public static final String INSTALLED_APPLICATIONS_JSON_PROP = "installedApplications.json.file";
+    public static final String SELECTED_APPLICATIONS_JSON_PROP = "selectedApplications.json.file";
     /**
      * The default name used for the configuration properties file.
      */
-    public static final String INSTALLED_APPLICATIONS_JSON_FILE_NAME = "installedApplications.json";
+    public static final String SELECTED_APPLICATIONS_JSON_FILE_NAME = "selectedApplications.json";
 
     private final DromblerClientConfiguration configuration;
     private final ScheduledExecutorService scheduledExecutorService;
+    private final StoreRegistry storeRegistry = new StoreRegistry();
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private HttpClient httpClient;
-    private JStoreClient jStoreClient;
+    private final JStoreClientRegistry jStoreClientRegistry;
+    private final HttpClient httpClient;
 
     public UpdateSchedulerStarter(DromblerClientConfiguration configuration) {
         this.configuration = configuration;
         this.scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        this.httpClient = HttpClientUtils.createHttpClient();
+        this.jStoreClientRegistry = new JStoreClientRegistry(httpClient, objectMapper);
     }
 
     @Override
     public boolean init() throws Exception {
-        Path installConfigInstalledApplicationsJsonPath = configuration.getInstallConfigDirPath().resolve(INSTALLED_APPLICATIONS_JSON_FILE_NAME);
-        InstalledApplications installedApplications = objectMapper.readValue(installConfigInstalledApplicationsJsonPath.toFile(), InstalledApplications.class);
-        CookieManager cookieManager = new CookieManager();
-        this.httpClient = HttpClient
-                .newBuilder()
-                .proxy(ProxySelector.getDefault())
-                .cookieManager(cookieManager)
-                .followRedirects(HttpClient.Redirect.ALWAYS)
-                .build();
-        this.jStoreClient = new JStoreClient(httpClient, objectMapper);
-        List<ApplicationId> applicationIdList = new ArrayList<>();
-        ApplicationId dromblerJstoreClientServiceApplicationId = new ApplicationId();
-        dromblerJstoreClientServiceApplicationId.setVendorId("drombler");
-        dromblerJstoreClientServiceApplicationId.setVendorApplicationId("drombler-jstore-client-service");
-        applicationIdList.add(dromblerJstoreClientServiceApplicationId);
-        ApplicationId dromblerJstoreClientApplicationId = new ApplicationId();
-        dromblerJstoreClientApplicationId.setVendorId("drombler");
-        dromblerJstoreClientServiceApplicationId.setVendorApplicationId("drombler-jstore-client");
+        mergeSelectedApplications(configuration.getInstallConfigDirPath());
+        mergeSelectedApplications(configuration.getUserConfigDirPath());
 
-        List<ApplicationVersionInfo> applicationVersionInfos = jStoreClient.searchApplicationVersions(applicationIdList);
+        storeRegistry.getStores().stream()
+                .map(Store::getStoreInfo)
+                .forEach(jStoreClientRegistry::registerStore);
 
-        System.out.println(applicationVersionInfos);
-//
-//        WindowsJRE8Installer windowsJRE8Installer = new WindowsJRE8Installer(httpClient);
-//        windowsJRE8Installer.installJRE(Paths.get("target", "jstore", "jre"));
 
-//        JBrowserDriver driver = new JBrowserDriver(Settings.builder()
-//                .saveAttachments(true)
-//                .logJavascript(true)
-//                .timezone(Timezone.EUROPE_ZURICH)
-//                .build());
-
-//            System.out.println(driver.attachmentsDir());
-//            Path path = driver.attachmentsDir().toPath();
-        WindowsJRE8Installer2 windowsJRE8Installer2 = new WindowsJRE8Installer2(httpClient);
-            Path installationDirPath = Paths.get("target", "jstore", "jre");
-            Files.createDirectories(installationDirPath);
-
-            windowsJRE8Installer2.installJRE(installationDirPath);
-
-//            try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
-//                stream.forEach(filePath -> {
-//                    try {
-//                        Files.move(filePath, installationDirPath);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                });
-//            }
 
         return true;
     }
 
+    private void mergeSelectedApplications(Path configDirPath) {
+        Path configSelectedApplicationsJsonPath = configDirPath.resolve(SELECTED_APPLICATIONS_JSON_FILE_NAME);
+        if (Files.exists(configSelectedApplicationsJsonPath)) {
+            try {
+                SelectedApplicationsType selectedApplicationsByConfigDir = objectMapper.readValue(configSelectedApplicationsJsonPath.toFile(), SelectedApplicationsType.class);
+                mergeSelectedApplications(selectedApplicationsByConfigDir);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void mergeSelectedApplications(SelectedApplicationsType selectedApplicationsByConfigDir) {
+        for (StoreType mergingJsonStore : selectedApplicationsByConfigDir.getStores()) {
+            try {
+                mergeStore(mergingJsonStore);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private void mergeStore(StoreType mergingJsonStore) throws URISyntaxException {
+        Store mergingStore = Store.fromJSON(mergingJsonStore);
+        if (storeRegistry.containsStore(mergingStore)) {
+            Store store = storeRegistry.getStore(mergingStore.getStoreInfo());
+            store.merge(mergingStore);
+        } else {
+            storeRegistry.registerStore(mergingStore);
+        }
+    }
+
+
     @Override
     public void startAndWait() throws ExecutionException, InterruptedException {
-        Updater updater = new Updater();
+        Updater updater = new Updater(storeRegistry, jStoreClientRegistry, httpClient);
         ScheduledFuture<?> scheduledFuture = scheduledExecutorService.scheduleWithFixedDelay(updater, 0, 24, TimeUnit.HOURS);
         scheduledFuture.get();
     }
 
     @Override
-    public void stop(){
+    public void stop() {
         scheduledExecutorService.shutdown(); // TODO: shutdownNow ?
     }
 

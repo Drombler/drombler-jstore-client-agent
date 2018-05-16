@@ -1,10 +1,9 @@
 package org.drombler.jstore.client.service;
 
 import org.drombler.commons.client.startup.main.ApplicationInstanceListener;
-import org.drombler.commons.client.startup.main.CommandLineArgs;
 import org.drombler.commons.client.startup.main.DromblerClientConfiguration;
 import org.drombler.commons.client.startup.main.DromblerClientStarter;
-
+import org.drombler.commons.client.startup.main.cli.CommandLineArgs;
 
 
 /**
@@ -21,7 +20,7 @@ public class JStoreClientServiceApplication extends DromblerClientStarter<Drombl
         if (application.init()) {
             application.start();
         }
-
+        Thread.sleep(100000);
     }
 
     public JStoreClientServiceApplication(DromblerClientConfiguration configuration){

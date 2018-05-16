@@ -1,5 +1,7 @@
 package org.drombler.jstore.client.service.jre;
 
+import org.drombler.jstore.client.service.jre.model.JRECleanInfo;
+
 import java.util.Set;
 import java.util.concurrent.Callable;
 

@@ -69,6 +69,12 @@
             <version>0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.2.0</version>
+            <scope>test</scope>
+        </dependency>
 
         <!--<dependency>-->
         <!--<groupId>org.glassfish.jersey.core</groupId>-->
@@ -180,11 +186,15 @@
                 <execution>
                     <id>default-cli</id>
                     <goals>
-                        <goal>java</goal>
+                        <goal>exec</goal>
                     </goals>
                     <configuration>
-                        <mainClass>org.drombler.jstore.client.service.JStoreClientServiceApplication</mainClass>
-                        <commandlineArgs>--add-modules jdk.incubator.httpclient --list-modules</commandlineArgs>
+                        <commandlineArgs>--add-modules jdk.incubator.httpclient -Duser.language=en -Duser.country=US
+                            org.drombler.jstore.client.service.JStoreClientServiceApplication
+                        </commandlineArgs>
+                        <executable>java</executable>
+                        <workingDirectory>${project.build.directory}/deployment/standalone</workingDirectory>
+                        <classpathScope>runtime</classpathScope>
                         <!--<arguments>-->
                             <!--<argument>-classpath</argument>-->
                             <!--&lt;!&ndash; automatically creates the classpath using all project dependencies,-->
