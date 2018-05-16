@@ -8,10 +8,15 @@
         <groupId>org.drombler.jstore.client.service</groupId>
         <artifactId>drombler-jstore-client-service-parent</artifactId>
         <version>0.1-SNAPSHOT</version>
+        <relativePath>../drombler-jstore-client-service-parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>drombler-jstore-client-service-model</artifactId>
     <packaging>bundle</packaging>
+
+    <name>Drombler JStore Client Service - Model</name>
+    <description></description>
+    <inceptionYear>2018</inceptionYear>
 
     <build>
         <plugins>

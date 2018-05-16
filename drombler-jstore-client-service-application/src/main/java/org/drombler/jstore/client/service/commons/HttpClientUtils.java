@@ -35,7 +35,7 @@ public class HttpClientUtils {
         System.out.println(pathHttpResponse.statusCode());
         Path body = pathHttpResponse.body();
         System.out.println(Files.size(body));
-        System.out.println(pathHttpResponse.finalRequest().headers().map());
+        System.out.println(pathHttpResponse.request().headers().map());
 
     }
 
@@ -44,7 +44,7 @@ public class HttpClientUtils {
         return HttpClient
                 .newBuilder()
                 .proxy(ProxySelector.getDefault())
-                .cookieManager(cookieManager)
+                .cookieHandler(cookieManager)
                 .followRedirects(HttpClient.Redirect.ALWAYS)
                 .build();
     }

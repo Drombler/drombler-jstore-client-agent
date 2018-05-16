@@ -57,7 +57,7 @@ Contributor(s): .
     </distributionManagement>
     
     <properties>
-        <java.min.version>9</java.min.version>
+        <java.min.version>10</java.min.version>
         <plugin.compiler.version>3.7.0</plugin.compiler.version>
         <plugin.jar.version>3.1.0</plugin.jar.version>
 
@@ -95,6 +95,13 @@ Contributor(s): .
                             <arg>jdk.incubator.httpclient</arg>
                         </compilerArgs>
                     </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.ow2.asm</groupId>
+                            <artifactId>asm</artifactId>
+                            <version>6.1.1</version> <!-- Use newer version of ASM -->
+                        </dependency>
+                    </dependencies>
                 </plugin>
             </plugins>
         </pluginManagement>

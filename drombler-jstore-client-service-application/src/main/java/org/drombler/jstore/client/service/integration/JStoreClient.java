@@ -7,7 +7,7 @@ import jdk.incubator.http.HttpRequest;
 import jdk.incubator.http.HttpResponse;
 import org.drombler.jstore.client.service.commons.http.StandardHttpHeaderFieldNames;
 import org.drombler.jstore.client.service.commons.http.StandardMimeTypes;
-import org.drombler.jstore.client.service.integration.impl.JacksonRequestBodyProcessor;
+import org.drombler.jstore.client.service.integration.impl.JacksonRequestBodyPublisher;
 import org.drombler.jstore.protocol.json.ApplicationId;
 import org.drombler.jstore.protocol.json.ApplicationVersionInfo;
 import org.drombler.jstore.protocol.json.ApplicationVersionSearchRequest;
@@ -71,9 +71,9 @@ public class JStoreClient {
         }
     }
 
-    private JacksonRequestBodyProcessor createJacksonRequestBodyProcessor(Object requestPayload) throws JStoreClientException {
+    private JacksonRequestBodyPublisher createJacksonRequestBodyProcessor(Object requestPayload) throws JStoreClientException {
         try {
-            return new JacksonRequestBodyProcessor(objectMapper, requestPayload);
+            return new JacksonRequestBodyPublisher(objectMapper, requestPayload);
         } catch (JsonProcessingException e) {
             throw new JStoreClientException(e.getMessage(), e);
         }

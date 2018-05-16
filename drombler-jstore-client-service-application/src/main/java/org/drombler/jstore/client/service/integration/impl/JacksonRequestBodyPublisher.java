@@ -2,26 +2,26 @@ package org.drombler.jstore.client.service.integration.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.incubator.http.HttpRequest.BodyProcessor;
+import jdk.incubator.http.HttpRequest.BodyPublisher;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.Flow;
 
-public class JacksonRequestBodyProcessor implements BodyProcessor {
-    private final BodyProcessor stringBodyProcessor;
+public class JacksonRequestBodyPublisher implements BodyPublisher {
+    private final BodyPublisher stringBodyPublisher;
 
-    public JacksonRequestBodyProcessor(ObjectMapper objectMapper, Object payLoad) throws JsonProcessingException {
+    public JacksonRequestBodyPublisher(ObjectMapper objectMapper, Object payLoad) throws JsonProcessingException {
         String serialized = objectMapper.writeValueAsString(payLoad);
-        this.stringBodyProcessor = BodyProcessor.fromString(serialized);
+        this.stringBodyPublisher = BodyPublisher.fromString(serialized);
     }
 
     @Override
     public long contentLength() {
-        return stringBodyProcessor.contentLength();
+        return stringBodyPublisher.contentLength();
     }
 
     @Override
     public void subscribe(Flow.Subscriber<? super ByteBuffer> subscriber) {
-        stringBodyProcessor.subscribe(subscriber);
+        stringBodyPublisher.subscribe(subscriber);
     }
 }

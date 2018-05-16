@@ -1,23 +1,24 @@
 package org.drombler.jstore.client.service.integration.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.incubator.http.HttpResponse.BodyProcessor;
+import jdk.incubator.http.HttpResponse.BodySubscriber;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Flow;
 
-public class JacksonResponseBodyProcessor<T> implements BodyProcessor<T> {
+public class JacksonResponseBodySubscriber<T> implements BodySubscriber<T> {
 
     String content;
     private ObjectMapper objectMapper;
     private Class<T> type;
     private final CompletionStage<T> completionStage = new CompletableFuture<>();
 
-    public JacksonResponseBodyProcessor(ObjectMapper objectMapper, Class<T> type, Charset charset) {
+    public JacksonResponseBodySubscriber(ObjectMapper objectMapper, Class<T> type, Charset charset) {
         this.objectMapper = objectMapper;
         this.type = type;
     }
@@ -41,7 +42,7 @@ public class JacksonResponseBodyProcessor<T> implements BodyProcessor<T> {
     }
 
     @Override
-    public void onNext(ByteBuffer item) {
+    public void onNext(List<ByteBuffer> item) {
 
     }
 

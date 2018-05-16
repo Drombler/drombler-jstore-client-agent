@@ -19,9 +19,9 @@ public class JacksonBodyHandler<T> implements BodyHandler<T> {
     }
 
     @Override
-    public HttpResponse.BodyProcessor<T> apply(int statusCode, HttpHeaders responseHeaders) {
+    public HttpResponse.BodySubscriber<T> apply(int statusCode, HttpHeaders responseHeaders) {
         Charset contentCharset = getContentCharset(responseHeaders);
-        return new JacksonResponseBodyProcessor<>(objectMapper, type, contentCharset);
+        return new JacksonResponseBodySubscriber<>(objectMapper, type, contentCharset);
     }
 
     private Charset getContentCharset(HttpHeaders responseHeaders) {
