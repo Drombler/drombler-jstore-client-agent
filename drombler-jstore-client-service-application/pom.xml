@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+        COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Notice
+ 
+The contents of this file are subject to the COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL)
+Version 1.0 (the "License"); you may not use this file except in
+compliance with the License. A copy of the License is available at
+http://www.opensource.org/licenses/cddl1.txt
+
+The Original Code is Drombler.org. The Initial Developer of the
+Original Code is Florian Brunner (GitHub user: puce77).
+Copyright 2018 Drombler.org. All Rights Reserved.
+
+Contributor(s): .
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -8,308 +22,47 @@
         <version>0.1-SNAPSHOT</version>
         <relativePath>../drombler-jstore-client-service-parent/pom.xml</relativePath>
     </parent>
+
     <artifactId>drombler-jstore-client-service-application</artifactId>
-    <packaging>jar</packaging>
+    <packaging>jap</packaging>
 
     <name>Drombler JStore Client Service - Application</name>
     <description></description>
     <inceptionYear>2018</inceptionYear>
+
     <properties>
-        <!--<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>-->
-        <!--<liquibase.version>3.4.2</liquibase.version>-->
-        <!--<jee.version>7.0</jee.version>-->
-        <!--<version.wildfly.swarm>2017.8.1</version.wildfly.swarm>-->
-        <!--<h2.version>1.4.191</h2.version>-->
-        <jersey.version>2.27</jersey.version>
+        <plugin.assembly.version>3.1.0</plugin.assembly.version>
     </properties>
+    <!-- Not inherited!?? -->
+    <prerequisites>
+        <maven>${maven.version}</maven>
+    </prerequisites>
 
-
-    <!--<dependencyManagement>-->
-        <!--<dependencies>-->
-            <!--<dependency>-->
-                <!--<groupId>org.wildfly.swarm</groupId>-->
-                <!--<artifactId>bom</artifactId>-->
-                <!--<version>${version.wildfly.swarm}</version>-->
-                <!--<scope>import</scope>-->
-                <!--<type>pom</type>-->
-            <!--</dependency>-->
-        <!--</dependencies>-->
-    <!--</dependencyManagement>-->
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.drombler.jstore</groupId>
+                <artifactId>jap-maven-plugin</artifactId>
+                <version>0.1.0-SNAPSHOT</version>
+                <extensions>true</extensions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/application-zip-assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>drombler-jstore-client-service-model</artifactId>
+            <artifactId>drombler-jstore-client-service-startup</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.drombler.commons</groupId>
-            <artifactId>drombler-commons-client-startup-main</artifactId>
-        </dependency>
-        <!--<dependency>-->
-        <!--<groupId>${project.groupId}</groupId>-->
-        <!--<artifactId>drombler-jstore-client-service-browserdriver</artifactId>-->
-        <!--<version>${project.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.slf4j</groupId>-->
-        <!--<artifactId>slf4j-api</artifactId>-->
-        <!--<version>1.7.22</version>-->
-        <!--</dependency>-->
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.drombler.jstore.protocol</groupId>
-            <artifactId>drombler-jstore-protocol</artifactId>
-            <version>0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.2.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!--<dependency>-->
-        <!--<groupId>org.glassfish.jersey.core</groupId>-->
-        <!--<artifactId>jersey-client</artifactId>-->
-        <!--<version>${jersey.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.glassfish.jersey.media</groupId>-->
-        <!--<artifactId>jersey-media-json-jackson</artifactId>-->
-        <!--<version>${jersey.version}</version>-->
-        <!--</dependency>-->
-
-
-        <!--<dependency>-->
-            <!--<groupId>org.liquibase</groupId>-->
-            <!--<artifactId>liquibase-cdi</artifactId>-->
-            <!--<version>${liquibase.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.liquibase</groupId>-->
-            <!--<artifactId>liquibase-core</artifactId>-->
-            <!--<version>${liquibase.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.commons</groupId>-->
-            <!--<artifactId>commons-io</artifactId>-->
-            <!--<version>1.3.2</version>-->
-            <!--<scope>test</scope>-->
-            <!--<type>jar</type>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>javax</groupId>-->
-            <!--<artifactId>javaee-web-api</artifactId>-->
-            <!--<version>${jee.version}</version>-->
-            <!--<scope>provided</scope>-->
-        <!--</dependency>-->
-        <!--        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jackson2-provider</artifactId>
-            <version>3.1.0.Final</version>
-            <scope>runtime</scope>
-        </dependency>-->
-
-
-        <!--
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>weld</artifactId>
-            <version>${wildfly-swarm.version}</version>
-        </dependency>-->
-
-        <!--        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.softsmithy.devlib</groupId>
-            <artifactId>softsmithy-devlib-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>3.3.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
-            <scope>test</scope>
-        </dependency>	
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>2.22.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.json</artifactId>
-            <version>1.0.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-multipart</artifactId>
-            <version>2.25.1</version>
-            <scope>test</scope>
-        </dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.yaml</groupId>-->
-            <!--<artifactId>snakeyaml</artifactId>-->
-            <!--<version>1.17</version>-->
-            <!--&lt;!&ndash;Issue: https://liquibase.jira.com/browse/CORE-2024 &ndash;&gt;-->
-            <!--<scope>runtime</scope>-->
-        <!--</dependency>-->
     </dependencies>
-
-    <build>
-        <pluginManagement>
-        <plugins>
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.6.0</version>
-            <executions>
-                <execution>
-                    <id>default-cli</id>
-                    <goals>
-                        <goal>exec</goal>
-                    </goals>
-                    <configuration>
-                        <commandlineArgs>--add-modules jdk.incubator.httpclient -Duser.language=en -Duser.country=US
-                            org.drombler.jstore.client.service.JStoreClientServiceApplication
-                        </commandlineArgs>
-                        <executable>java</executable>
-                        <workingDirectory>${project.build.directory}/deployment/standalone</workingDirectory>
-                        <classpathScope>runtime</classpathScope>
-                        <!--<arguments>-->
-                            <!--<argument>-classpath</argument>-->
-                            <!--&lt;!&ndash; automatically creates the classpath using all project dependencies,-->
-                                 <!--also adding the project build directory &ndash;&gt;-->
-                            <!--<classpath/>-->
-                            <!--<argument>&#45;&#45;add-modules</argument>-->
-                            <!--<argument>jdk.incubator.httpclient</argument>-->
-                            <!--<argument>org.drombler.jstore.client.service.JStoreClientServiceApplication</argument>-->
-                        <!--</arguments>-->
-                        <!--<workingDirectory>${project.build.directory}</workingDirectory>-->
-                                                <!--<classpathScope>runtime</classpathScope>-->
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-        </plugins>
-        </pluginManagement>
-        <plugins>
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-compiler-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<compilerArguments>-->
-                        <!--<endorseddirs>${endorsed.dir}</endorseddirs>-->
-                    <!--</compilerArguments>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-war-plugin</artifactId>-->
-                <!--<version>2.3</version>-->
-                <!--<configuration>-->
-                    <!--<failOnMissingWebXml>false</failOnMissingWebXml>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-dependency-plugin</artifactId>-->
-                <!--<version>2.6</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<phase>validate</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>copy</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<outputDirectory>${endorsed.dir}</outputDirectory>-->
-                            <!--<silent>true</silent>-->
-                            <!--<artifactItems>-->
-                                <!--<artifactItem>-->
-                                    <!--<groupId>javax</groupId>-->
-                                    <!--<artifactId>javaee-endorsed-api</artifactId>-->
-                                    <!--<version>7.0</version>-->
-                                    <!--<type>jar</type>-->
-                                <!--</artifactItem>-->
-                            <!--</artifactItems>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-        </plugins>
-    </build>
-
-    <!--<profiles>-->
-        <!--<profile>-->
-            <!--<id>wildfly-swarm</id>-->
-            <!--<build>-->
-                <!--<plugins>-->
-                    <!--<plugin>-->
-                        <!--<groupId>org.wildfly.swarm</groupId>-->
-                        <!--<artifactId>wildfly-swarm-plugin</artifactId>-->
-                        <!--<version>${version.wildfly.swarm}</version>-->
-                        <!--<executions>-->
-                            <!--<execution>-->
-                                <!--<goals>-->
-                                    <!--<goal>package</goal>-->
-                                <!--</goals>-->
-                            <!--</execution>-->
-                        <!--</executions>-->
-                    <!--</plugin>-->
-                <!--</plugins>-->
-            <!--</build>-->
-            <!--<dependencies>-->
-                <!--<dependency>-->
-                    <!--<groupId>org.wildfly.swarm</groupId>-->
-                    <!--<artifactId>jaxrs</artifactId>-->
-                <!--</dependency>-->
-                <!--<dependency>-->
-                    <!--<groupId>org.wildfly.swarm</groupId>-->
-                    <!--<artifactId>cdi</artifactId>-->
-                <!--</dependency>-->
-                <!--<dependency>-->
-                    <!--<groupId>org.wildfly.swarm</groupId>-->
-                    <!--<artifactId>cdi-config</artifactId>-->
-                <!--</dependency>-->
-                <!--<dependency>-->
-                    <!--<groupId>org.wildfly.swarm</groupId>-->
-                    <!--<artifactId>jpa</artifactId>-->
-                <!--</dependency>-->
-                <!--<dependency>-->
-                    <!--<groupId>org.wildfly.swarm</groupId>-->
-                    <!--<artifactId>datasources</artifactId>-->
-                <!--</dependency>-->
-                <!--<dependency>-->
-                    <!--<groupId>org.wildfly.swarm</groupId>-->
-                    <!--<artifactId>transactions</artifactId>-->
-                <!--</dependency>-->
-
-
-                <!--<dependency>-->
-                    <!--<groupId>com.h2database</groupId>-->
-                    <!--<artifactId>h2</artifactId>-->
-                    <!--<version>${h2.version}</version>-->
-                <!--</dependency>	-->
-            <!--</dependencies>-->
-        <!--</profile>-->
-    <!--</profiles>-->
 </project>

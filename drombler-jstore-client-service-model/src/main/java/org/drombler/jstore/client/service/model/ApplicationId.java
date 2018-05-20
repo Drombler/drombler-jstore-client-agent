@@ -52,6 +52,10 @@ public class ApplicationId implements Comparable<ApplicationId> {
         return vendorApplicationId;
     }
 
+    public String toFormattedString() {
+        return vendorId + "-" + vendorApplicationId;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(vendorId, vendorApplicationId);
