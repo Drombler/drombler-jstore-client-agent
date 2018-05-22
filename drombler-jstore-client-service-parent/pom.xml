@@ -13,25 +13,29 @@ Copyright 2018 Drombler.org. All Rights Reserved.
 
 Contributor(s): .
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.drombler</groupId>
         <artifactId>drombler-oss-parent</artifactId>
         <version>2.8-SNAPSHOT</version>
-        <relativePath />
+        <relativePath/>
     </parent>
-    
+
     <groupId>org.drombler.jstore.client.service</groupId>
     <artifactId>drombler-jstore-client-service-parent</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    
+
     <name>Drombler JStore Client Service - Parent</name>
     <url>http://www.drombler.org/drombler-jstore-client-service/${project.version}/docs/site</url>
-    <description>The parent POM of the Drombler JStore Client Service project. This Drombler JStore Client Service Parent POM should be the parent (either directly or indirectly) of every Drombler JStore Client Service project unless there is a good reason to do otherwise (in which case the reason should be documented).</description>
+    <description>The parent POM of the Drombler JStore Client Service project. This Drombler JStore Client Service
+        Parent POM should be the parent (either directly or indirectly) of every Drombler JStore Client Service project
+        unless there is a good reason to do otherwise (in which case the reason should be documented).
+    </description>
     <inceptionYear>2018</inceptionYear>
-    
+
     <scm>
         <connection>${scm.parent.connection}</connection>
         <developerConnection>${scm.parent.developerConnection}</developerConnection>
@@ -47,7 +51,7 @@ Contributor(s): .
             <url>../LICENSE.txt</url>
         </license>
     </licenses>
-    
+
     <distributionManagement>
         <site>
             <id>github</id>
@@ -55,14 +59,14 @@ Contributor(s): .
             <url>${distributionManagement.parent.url}/${project.artifactId}/</url>
         </site>
     </distributionManagement>
-    
+
     <properties>
         <java.min.version>10</java.min.version>
         <plugin.compiler.version>3.7.0</plugin.compiler.version>
         <plugin.jar.version>3.1.0</plugin.jar.version>
         <plugin.javadoc.version>3.0.0</plugin.javadoc.version>
 
-        
+
         <!-- Dev Environment Defaults -->
         <scm.parent.connection>scm:git:https://github.com/Drombler/drombler-jstore-client-service.git</scm.parent.connection>
         <scm.parent.developerConnection>scm:git:git@github.com:Drombler/drombler-jstore-client-service.git</scm.parent.developerConnection>
@@ -101,6 +105,18 @@ Contributor(s): .
                             <groupId>org.ow2.asm</groupId>
                             <artifactId>asm</artifactId>
                             <version>6.1.1</version> <!-- Use newer version of ASM -->
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${plugin.javadoc.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.commons</groupId>
+                            <artifactId>commons-lang3</artifactId>
+                            <version>3.7</version> <!-- should be fixed in maven-javadoc-plugin v3.0.1-->
                         </dependency>
                     </dependencies>
                 </plugin>
