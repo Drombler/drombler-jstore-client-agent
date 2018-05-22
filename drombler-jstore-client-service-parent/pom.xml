@@ -112,6 +112,12 @@ Contributor(s): .
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${plugin.javadoc.version}</version>
+                    <configuration>
+                        <additionalOptions>
+                            <additionalOption>--add-modules</additionalOption>
+                            <additionalOption>jdk.incubator.httpclient</additionalOption>
+                        </additionalOptions>
+                    </configuration>
                     <dependencies>
                         <dependency>
                             <groupId>org.apache.commons</groupId>
