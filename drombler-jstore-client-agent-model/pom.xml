@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.drombler.jstore.client.agent</groupId>
+        <artifactId>drombler-jstore-client-agent-parent</artifactId>
+        <version>0.1-SNAPSHOT</version>
+        <relativePath>../drombler-jstore-client-agent-parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>drombler-jstore-client-agent-model</artifactId>
+    <packaging>bundle</packaging>
+
+    <name>Drombler JStore Client Agent - Model</name>
+    <description></description>
+    <inceptionYear>2018</inceptionYear>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>3.5.0</version>
+                <extensions>true</extensions>
+            </plugin>
+            <plugin>
+                <groupId>org.jsonschema2pojo</groupId>
+                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+                <configuration>
+                    <sourceDirectory>${basedir}/src/main/resources/org/drombler/jstore/client/agent/model/json
+                    </sourceDirectory>
+                    <targetPackage>org.drombler.jstore.client.agent.model.json</targetPackage>
+                    <classNameSuffix>Type</classNameSuffix>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-json-pojos</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.5</version>
+        </dependency>
+    </dependencies>
+</project>

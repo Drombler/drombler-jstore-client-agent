@@ -1,0 +1,20 @@
+{
+  "stores": [
+    {
+      "storeInfo": {
+        "storeId": "jstore-mock",
+        "endpoint": "http://localhost:5000/webresources"
+      },
+      "applicationIds": [
+        {
+          "vendorId": "drombler",
+          "vendorApplicationId": "drombler-jstore-client-agent"
+        },
+        {
+          "vendorId": "drombler",
+          "vendorApplicationId": "drombler-jstore-client"
+        }
+      ]
+    }
+  ]
+}

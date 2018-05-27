@@ -1,5 +1,5 @@
-# drombler-jstore-client-service
-Drombler JStore Client Service
+# drombler-jstore-client-agent
+Drombler JStore Client Agent
 
 https://dzone.com/articles/what-the-future-java-releases-will-mean-for-legacy :
 

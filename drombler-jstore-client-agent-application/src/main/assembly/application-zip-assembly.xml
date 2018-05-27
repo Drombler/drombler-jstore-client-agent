@@ -1,0 +1,26 @@
+<assembly xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+    <id>applicationZip</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <!--<moduleSets>-->
+    <!--<moduleSet>-->
+    <dependencySets>
+        <dependencySet>
+            <!-- Enable access to all projects in the current multimodule build! -->
+            <!--<useAllReactorProjects>true</useAllReactorProjects>-->
+            <outputDirectory>/lib</outputDirectory>
+            <includes>
+                <include>${project.groupId}:drombler-jstore-client-agent-startup:jar:</include>
+            </includes>
+            <!--<binaries>-->
+            <!--<outputDirectory>lib</outputDirectory>-->
+            <!--<unpack>false</unpack>-->
+            <!--</binaries>-->
+        </dependencySet>
+    </dependencySets>
+    <!--</moduleSet>-->
+    <!--</moduleSets>-->
+</assembly>
