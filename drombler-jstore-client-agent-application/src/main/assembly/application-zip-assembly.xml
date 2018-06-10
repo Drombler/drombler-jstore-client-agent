@@ -3,6 +3,7 @@
     <id>applicationZip</id>
     <formats>
         <format>zip</format>
+        <format>dir</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
     <!--<moduleSets>-->
@@ -11,14 +12,26 @@
         <dependencySet>
             <!-- Enable access to all projects in the current multimodule build! -->
             <!--<useAllReactorProjects>true</useAllReactorProjects>-->
-            <outputDirectory>/lib</outputDirectory>
+            <!--<outputDirectory>/lib</outputDirectory>-->
             <includes>
-                <include>${project.groupId}:drombler-jstore-client-agent-startup:jar:</include>
+                <include>${project.groupId}:drombler-jstore-client-agent-startup</include>
             </includes>
             <!--<binaries>-->
             <!--<outputDirectory>lib</outputDirectory>-->
             <!--<unpack>false</unpack>-->
+            <!--<includeDependencies>true</includeDependencies>-->
             <!--</binaries>-->
+            <useProjectArtifact>false</useProjectArtifact>
+        </dependencySet>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <useTransitiveDependencies>true</useTransitiveDependencies>
+            <outputDirectory>lib</outputDirectory>
+            <unpack>false</unpack>
+            <excludes>
+                <exclude>${project.groupId}:drombler-jstore-client-agent-startup</exclude>
+            </excludes>
+            <scope>runtime</scope>
         </dependencySet>
     </dependencySets>
     <!--</moduleSet>-->

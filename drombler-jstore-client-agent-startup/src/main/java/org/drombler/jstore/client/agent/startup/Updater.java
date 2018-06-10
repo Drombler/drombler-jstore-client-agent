@@ -13,6 +13,7 @@ import org.drombler.jstore.client.agent.startup.jre.JREInfoUpdater;
 import org.drombler.jstore.client.agent.startup.jre.model.JREUpdateInfo;
 import org.drombler.jstore.client.agent.startup.jre.oracle.OracleJREUpdater;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.*;
@@ -76,7 +77,8 @@ public class Updater implements Runnable {
     }
 
     private Set<ApplicationInfo> getSelectedApplications() {
-        return null;
+        // TODO: implement
+        return new HashSet<>();
     }
 
     private void updateJREInfo() throws InterruptedException, ExecutionException, TimeoutException {
@@ -87,7 +89,8 @@ public class Updater implements Runnable {
     }
 
     private Set<String> getRequiredJREs() {
-        return null;
+        // TODO: implement
+        return new HashSet<>();
     }
 
     private void updateApplications() throws InterruptedException {
@@ -100,7 +103,8 @@ public class Updater implements Runnable {
     }
 
     private Set<ApplicationInfo> getSelectedButOutdatedOracleApplicationVersions() {
-        return null;
+        // TODO: implement
+        return new HashSet<>();
     }
 
     private void updateJREs() throws InterruptedException {
@@ -114,7 +118,8 @@ public class Updater implements Runnable {
     }
 
     private Set<String> getRequiredButOutdatedOracleJREVersions() {
-        return null;
+        // TODO: implement
+        return new HashSet<>();
     }
 
 
@@ -126,7 +131,8 @@ public class Updater implements Runnable {
     }
 
     private Set<ApplicationInfo> getUnusedApplications() {
-        return null;
+        // TODO: implement
+        return new HashSet<>();
     }
 
     private void cleanJREs() throws InterruptedException, ExecutionException, TimeoutException {
@@ -137,7 +143,8 @@ public class Updater implements Runnable {
     }
 
     private Set<String> getUnusedJREVersions() {
-        return null;
+        // TODO: implement
+        return new HashSet<>();
     }
 
 }

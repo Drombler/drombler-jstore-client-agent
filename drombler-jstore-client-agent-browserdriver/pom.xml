@@ -10,23 +10,50 @@
         <relativePath>../drombler-jstore-client-agent-parent/pom.xml</relativePath>
     </parent>
 
-    <artifactId>drombler-jstore-client-server-browserdriver</artifactId>
+    <artifactId>drombler-jstore-client-agent-browserdriver</artifactId>
     <packaging>jar</packaging>
 
     <name>Drombler JStore Client Agent - BrowserDriver</name>
     <description></description>
     <inceptionYear>2018</inceptionYear>
 
+    <properties>
+        <selenium.version>3.8.1</selenium.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.machinepublishers</groupId>
+                <artifactId>jbrowserdriver</artifactId>
+                <version>1.0.0-RC1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-support</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-remote-driver</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-api</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>com.machinepublishers</groupId>
             <artifactId>jbrowserdriver</artifactId>
-            <version>1.0.0-RC1</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-support</artifactId>
-            <version>3.8.1</version>
         </dependency>
     </dependencies>
 </project>
