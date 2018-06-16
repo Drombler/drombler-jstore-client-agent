@@ -1,15 +1,25 @@
-# drombler-jstore-client-agent
-Drombler JStore Client Agent
+# Drombler JStore Client Agent
 
-https://dzone.com/articles/what-the-future-java-releases-will-mean-for-legacy :
+A headless background service which runs on end-user devices (desktops, NAS, IoT devices,...)
 
-   * Small and native client tool that only needs to be installed once
-   * The tool should be able to manage multiple applications
-   * The tool should be able to automatically download updates for applications
-   * The tool should support the Java security manager
-   * The tool should support the check for signed JARs
-   * The tool should be able to manage installed JREs and install custom/additional JREs
-   * The tool should be able to download JREs from a defined endpoint
-   * An application can specify a version range or a special version for the JRE that should be used
-   * An application can specify a custom JRE that was created by jlink for the application.
-   * The tool should be able to install application shortcuts in the OS
+Note: by installing / using this software you're agreeing to the [Oracle Binary Code License](Oracle-BCL.txt).
+Please see the [Oracle Java web site](http://java.oracle.com) for the latest version of this license.
+
+## Current Goals
+
+   * download and update applications from Drombler JStore
+   * download and update applications using a JNLP-like file
+   * download and update native components:
+      * JREs (supporting multiple parallel major version installations)
+      * custom runtimes created by JLink (supporting multiple parallel major version installations)
+      * JavaFX native components?
+      * Other native components, e.g. SWT?
+   * support Security Manager
+   * start applications in a configured environment
+   * OS integration: 
+      * desktop shortcuts
+      * URL protocol registration
+      * run as native OS service/ deamon
+
+
+https://puces-blog.blogspot.com/2018/06/the-next-generation-of-java-application.html
