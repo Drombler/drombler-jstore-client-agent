@@ -26,32 +26,35 @@
                 <version>3.5.0</version>
                 <extensions>true</extensions>
             </plugin>
-            <plugin>
-                <groupId>org.jsonschema2pojo</groupId>
-                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
-                <configuration>
-                    <sourceDirectory>${basedir}/src/main/resources/org/drombler/jstore/client/agent/model/json
-                    </sourceDirectory>
-                    <targetPackage>org.drombler.jstore.client.agent.model.json</targetPackage>
-                    <classNameSuffix>Type</classNameSuffix>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>generate-json-pojos</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+            <!--<groupId>org.jsonschema2pojo</groupId>-->
+            <!--<artifactId>jsonschema2pojo-maven-plugin</artifactId>-->
+            <!--<configuration>-->
+            <!--<sourceDirectory>${basedir}/src/main/resources/org/drombler/jstore/client/agent/model/json-->
+            <!--</sourceDirectory>-->
+            <!--<targetPackage>org.drombler.jstore.client.agent.model.json</targetPackage>-->
+            <!--<classNameSuffix>Type</classNameSuffix>-->
+            <!--</configuration>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>generate-json-pojos</id>-->
+            <!--<goals>-->
+            <!--<goal>generate</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 
     <dependencies>
+        <!--<dependency>-->
+        <!--<groupId>com.fasterxml.jackson.core</groupId>-->
+        <!--<artifactId>jackson-annotations</artifactId>-->
+        <!--</dependency>-->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.9.5</version>
+            <groupId>org.drombler.jstore.protocol</groupId>
+            <artifactId>drombler-jstore-protocol</artifactId>
         </dependency>
     </dependencies>
 </project>

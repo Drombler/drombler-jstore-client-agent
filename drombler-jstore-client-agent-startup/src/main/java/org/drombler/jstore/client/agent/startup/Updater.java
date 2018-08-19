@@ -1,18 +1,29 @@
 package org.drombler.jstore.client.agent.startup;
 
-import jdk.incubator.http.HttpClient;
-import org.drombler.jstore.client.agent.model.StoreRegistry;
+import org.drombler.jstore.client.agent.model.PreSelectedApplicationRegistry;
 import org.drombler.jstore.client.agent.startup.app.ApplicationInfo;
 import org.drombler.jstore.client.agent.startup.app.task.ApplicationCleaner;
 import org.drombler.jstore.client.agent.startup.app.task.ApplicationInfoUpdater;
 import org.drombler.jstore.client.agent.startup.app.task.ApplicationUpdater;
+import org.drombler.jstore.client.agent.startup.app.task.model.ApplicationInfoUpdateInfo;
 import org.drombler.jstore.client.agent.startup.app.task.model.ApplicationUpdateInfo;
+import org.drombler.jstore.client.agent.startup.download.DownloadManager;
+import org.drombler.jstore.client.agent.startup.integration.JStoreClient;
 import org.drombler.jstore.client.agent.startup.integration.JStoreClientRegistry;
 import org.drombler.jstore.client.agent.startup.jre.JRECleaner;
 import org.drombler.jstore.client.agent.startup.jre.JREInfoUpdater;
+import org.drombler.jstore.client.agent.startup.jre.JREUpdater;
+import org.drombler.jstore.client.agent.startup.jre.model.JREInfoUpdateInfo;
 import org.drombler.jstore.client.agent.startup.jre.model.JREUpdateInfo;
-import org.drombler.jstore.client.agent.startup.jre.oracle.OracleJREUpdater;
+import org.drombler.jstore.protocol.StoreRegistry;
+import org.drombler.jstore.protocol.json.JreInfo;
+import org.drombler.jstore.protocol.json.SelectedJRE;
+import org.drombler.jstore.protocol.json.Store;
+import org.drombler.jstore.protocol.json.SystemInfo;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,13 +33,28 @@ import java.util.stream.Collectors;
 public class Updater implements Runnable {
     private final ExecutorService threadPoolExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     private final JStoreClientRegistry jStoreClientRegistry;
-    private final HttpClient httpClient;
+    private final PreSelectedApplicationRegistry preSelectedApplicationRegistry;
     private final StoreRegistry storeRegistry;
+    private final SystemInfo systemInfo;
+    private final DownloadManager downloadManager;
 
-    public Updater(StoreRegistry storeRegistry, JStoreClientRegistry jStoreClientRegistry, HttpClient httpClient) {
+    public Updater(StoreRegistry storeRegistry, JStoreClientRegistry jStoreClientRegistry, PreSelectedApplicationRegistry preSelectedApplicationRegistry) throws IOException {
         this.storeRegistry = storeRegistry;
         this.jStoreClientRegistry = jStoreClientRegistry;
-        this.httpClient = httpClient;
+        this.preSelectedApplicationRegistry = preSelectedApplicationRegistry;
+        this.systemInfo = createSystemInfo();
+        this.downloadManager = new DownloadManager(Files.createTempDirectory("jstore"));
+    }
+
+    private SystemInfo createSystemInfo() {
+        SystemInfo systemInfo = new SystemInfo();
+        systemInfo.setOsName(System.getProperty("os.name"));
+        systemInfo.setOsArch(System.getProperty("os.arch"));
+        systemInfo.setOsVersion(System.getProperty("os.version"));
+        // TODO implement
+//        systemInfo.setHeadless();
+//        systemInfo.setLabels();
+        return systemInfo;
     }
 
     @Override
@@ -71,8 +97,8 @@ public class Updater implements Runnable {
 
     private void updateApplicationInfo() throws InterruptedException, ExecutionException, TimeoutException {
         Set<ApplicationInfo> selectedApplications = getSelectedApplications();
-        ApplicationInfoUpdater updater = new ApplicationInfoUpdater(storeRegistry, jStoreClientRegistry);
-        Future<?> future = threadPoolExecutor.submit(updater);
+        ApplicationInfoUpdater updater = new ApplicationInfoUpdater(storeRegistry, jStoreClientRegistry, systemInfo);
+        Future<ApplicationInfoUpdateInfo> future = threadPoolExecutor.submit(updater);
         future.get(1200, TimeUnit.SECONDS);
     }
 
@@ -82,10 +108,13 @@ public class Updater implements Runnable {
     }
 
     private void updateJREInfo() throws InterruptedException, ExecutionException, TimeoutException {
-        Set<String> jreSet = getRequiredJREs();
-        JREInfoUpdater updater = new JREInfoUpdater(jreSet);
-        Future<?> future = threadPoolExecutor.submit(updater);
-        future.get(1200, TimeUnit.SECONDS);
+        // TODO: get list from installed applications
+//        Set<String> jreSet = getRequiredJREs();
+        List<SelectedJRE> selectedJREs = Arrays.asList(getSelectedJRE());
+
+        JREInfoUpdater updater = new JREInfoUpdater(jStoreClientRegistry.getStoreClient(storeRegistry.getStores().iterator().next()), selectedJREs, systemInfo);
+        Future<JREInfoUpdateInfo> future = threadPoolExecutor.submit(updater);
+        JREInfoUpdateInfo jreInfoUpdateInfo = future.get(1200, TimeUnit.SECONDS);
     }
 
     private Set<String> getRequiredJREs() {
@@ -108,18 +137,35 @@ public class Updater implements Runnable {
     }
 
     private void updateJREs() throws InterruptedException {
-        Set<String> requiredButOutdatedOracleJREVersions = getRequiredButOutdatedOracleJREVersions();
-        List<OracleJREUpdater> jreUpdaters = requiredButOutdatedOracleJREVersions.stream()
-                .map(version -> new OracleJREUpdater(httpClient, version))
+        Set<SelectedJRE> requiredButOutdatedOracleJREVersions = getRequiredButOutdatedOracleJREVersions();
+
+        // TODO: iteratre
+        Store store = storeRegistry.getStores().iterator().next();
+        JStoreClient jStoreClient = jStoreClientRegistry.getStoreClient(store);
+
+
+        List<JREUpdater> jreUpdaters = requiredButOutdatedOracleJREVersions.stream()
+//                .map(version -> new OracleJREUpdater(httpClient, version))
+                .map(selectedJRE -> new JREUpdater(jStoreClient, selectedJRE, systemInfo, downloadManager))
                 .collect(Collectors.toList());
         List<Future<JREUpdateInfo>> futureList = threadPoolExecutor.invokeAll(jreUpdaters, 20 * 60 * jreUpdaters.size(), TimeUnit.SECONDS);
 
 
     }
 
-    private Set<String> getRequiredButOutdatedOracleJREVersions() {
+    private SelectedJRE getSelectedJRE() {
+        // TODO: get from update info
+        SelectedJRE selectedJRE = new SelectedJRE();
+        JreInfo jreInfo = new JreInfo();
+        jreInfo.setJreVendorId("oracle");
+        jreInfo.setJavaSpecificationVersion("10");
+        selectedJRE.setJreInfo(jreInfo);
+        return selectedJRE;
+    }
+
+    private Set<SelectedJRE> getRequiredButOutdatedOracleJREVersions() {
         // TODO: implement
-        return new HashSet<>();
+        return new HashSet<>(Arrays.asList(getSelectedJRE()));
     }
 
 

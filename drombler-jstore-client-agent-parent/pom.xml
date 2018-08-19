@@ -19,7 +19,7 @@ Contributor(s): .
     <parent>
         <groupId>org.drombler</groupId>
         <artifactId>drombler-oss-parent</artifactId>
-        <version>3.0</version>
+        <version>3.1</version>
         <relativePath/>
     </parent>
 
@@ -153,6 +153,11 @@ Contributor(s): .
                 <version>${drombler-commons.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.drombler.jstore.protocol</groupId>
+                <artifactId>drombler-jstore-protocol</artifactId>
+                <version>0.3-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

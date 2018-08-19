@@ -45,12 +45,10 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.5</version>
         </dependency>
         <dependency>
             <groupId>org.drombler.jstore.protocol</groupId>
             <artifactId>drombler-jstore-protocol</artifactId>
-            <version>0.1</version>
         </dependency>
         <dependency>
             <groupId>org.softsmithy.lib</groupId>
@@ -81,7 +79,8 @@
                             </goals>
                             <configuration>
                                 <commandlineArgs>--add-modules jdk.incubator.httpclient -Duser.language=en
-                                    -Duser.country=US org.drombler.jstore.client.agent.startup.JStoreClientAgent
+                                    -Duser.country=US
+                                    org.drombler.jstore.client.agent.startup/org.drombler.jstore.client.agent.startup.JStoreClientAgent
                                 </commandlineArgs>
                                 <executable>java</executable>
                                 <workingDirectory>${project.build.directory}/deployment/standalone</workingDirectory>

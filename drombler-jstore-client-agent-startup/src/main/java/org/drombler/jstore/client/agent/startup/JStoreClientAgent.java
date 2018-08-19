@@ -8,11 +8,11 @@ import org.drombler.commons.client.startup.main.cli.CommandLineArgs;
 /**
  * @author puce
  */
-public class JStoreClientAgent extends DromblerClientStarter<JStoreClientServiceConfiguration> {
+public class JStoreClientAgent extends DromblerClientStarter<JStoreClientAgentConfiguration> {
 
     public static void main(String[] args) throws Exception {
         CommandLineArgs commandLineArgs = CommandLineArgs.parseCommandLineArgs(args);
-        JStoreClientServiceConfiguration configuration = new JStoreClientServiceConfiguration(commandLineArgs);
+        JStoreClientAgentConfiguration configuration = new JStoreClientAgentConfiguration(commandLineArgs);
         JStoreClientAgent application = new JStoreClientAgent(configuration);
 
         if (application.init()) {
@@ -21,7 +21,7 @@ public class JStoreClientAgent extends DromblerClientStarter<JStoreClientService
         Thread.sleep(100000);
     }
 
-    public JStoreClientAgent(JStoreClientServiceConfiguration configuration) {
+    public JStoreClientAgent(JStoreClientAgentConfiguration configuration) {
         super(configuration);
         addAdditionalStarters(new UpdateSchedulerStarter(configuration));
     }

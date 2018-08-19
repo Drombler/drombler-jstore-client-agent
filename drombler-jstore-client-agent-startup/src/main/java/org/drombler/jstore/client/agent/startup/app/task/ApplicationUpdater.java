@@ -1,9 +1,9 @@
 package org.drombler.jstore.client.agent.startup.app.task;
 
-import org.drombler.jstore.client.agent.model.ApplicationId;
-import org.drombler.jstore.client.agent.model.StoreInfo;
 import org.drombler.jstore.client.agent.startup.app.ApplicationInfo;
 import org.drombler.jstore.client.agent.startup.app.task.model.ApplicationUpdateInfo;
+import org.drombler.jstore.protocol.json.ApplicationId;
+import org.drombler.jstore.protocol.json.Store;
 import org.softsmithy.lib.nio.file.CopyFileVisitor;
 import org.softsmithy.lib.nio.file.JarFiles;
 
@@ -31,14 +31,14 @@ public class ApplicationUpdater implements Callable<ApplicationUpdateInfo> {
     }
 
     private void updateApplication() throws IOException {
-        StoreInfo storeInfo = null;
+        Store store = null;
         ApplicationId applicationId = null;
         Path downloadedApplication = downloadApplication();
         Path applicationTmpDirPath = unzipApplicationInTmp(downloadedApplication);
         Path applicationPath = null;
         backupApplication(null, null);
         deleteOldApplication();
-        moveNewApplication(applicationTmpDirPath, storeInfo, applicationId);
+        moveNewApplication(applicationTmpDirPath, store, applicationId);
         deleteDownloadedApplication(downloadedApplication);
     }
 
@@ -54,13 +54,13 @@ public class ApplicationUpdater implements Callable<ApplicationUpdateInfo> {
         ApplicationId applicationId = null;
         URI jarURI = JarFiles.getJarURI((URI) null);
         try (FileSystem zipFileSystem = JarFiles.newJarFileSystem(jarURI)) {
-            Path tempDirectory = Files.createTempDirectory(applicationId.toFormattedString());
-            CopyFileVisitor.copy(zipFileSystem.getPath("/"), tempDirectory);
+//            Path tempDirectory = Files.createTempDirectory(applicationId.toFormattedString());
+//            CopyFileVisitor.copy(zipFileSystem.getPath("/"), tempDirectory);
         }
         return null;
     }
 
-    private void backupApplication(StoreInfo storeInfo, ApplicationId applicationId) throws IOException {
+    private void backupApplication(Store store, ApplicationId applicationId) throws IOException {
         URI backupZipURI = JarFiles.getJarURI((URI) null);
         try (FileSystem zipFileSystem = JarFiles.newJarFileSystem(backupZipURI)) {
             Path dir = null;
@@ -72,7 +72,7 @@ public class ApplicationUpdater implements Callable<ApplicationUpdateInfo> {
 // delete dir recursively
     }
 
-    private void moveNewApplication(Path applicationTmpDirPath, StoreInfo storeInfo, ApplicationId applicationId) {
+    private void moveNewApplication(Path applicationTmpDirPath, Store store, ApplicationId applicationId) {
 //Files.move(applicationTmpDirPath);
     }
 
