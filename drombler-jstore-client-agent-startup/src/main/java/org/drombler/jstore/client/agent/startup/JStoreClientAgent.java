@@ -4,6 +4,8 @@ import org.drombler.commons.client.startup.main.ApplicationInstanceListener;
 import org.drombler.commons.client.startup.main.DromblerClientStarter;
 import org.drombler.commons.client.startup.main.cli.CommandLineArgs;
 
+import java.io.IOException;
+
 
 /**
  * @author puce
@@ -21,7 +23,7 @@ public class JStoreClientAgent extends DromblerClientStarter<JStoreClientAgentCo
         Thread.sleep(100000);
     }
 
-    public JStoreClientAgent(JStoreClientAgentConfiguration configuration) {
+    public JStoreClientAgent(JStoreClientAgentConfiguration configuration) throws IOException {
         super(configuration);
         addAdditionalStarters(new UpdateSchedulerStarter(configuration));
     }

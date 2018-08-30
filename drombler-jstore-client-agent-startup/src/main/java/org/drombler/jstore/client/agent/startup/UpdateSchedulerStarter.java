@@ -38,7 +38,7 @@ public class UpdateSchedulerStarter implements BootServiceStarter {
     private final JStoreClientRegistry jStoreClientRegistry;
     private final HttpClient httpClient;
 
-    public UpdateSchedulerStarter(JStoreClientAgentConfiguration configuration) {
+    public UpdateSchedulerStarter(JStoreClientAgentConfiguration configuration) throws IOException {
         this.configuration = configuration;
         this.scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         this.httpClient = HttpClientUtils.createHttpClient();

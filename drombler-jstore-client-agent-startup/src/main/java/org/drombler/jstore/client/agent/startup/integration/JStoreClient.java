@@ -7,6 +7,9 @@ import jdk.incubator.http.HttpRequest;
 import jdk.incubator.http.HttpResponse;
 import org.drombler.jstore.client.agent.startup.commons.http.StandardHttpHeaderFieldNames;
 import org.drombler.jstore.client.agent.startup.commons.http.StandardMimeTypes;
+import org.drombler.jstore.client.agent.startup.download.DownloadId;
+import org.drombler.jstore.client.agent.startup.download.DownloadManager;
+import org.drombler.jstore.client.agent.startup.download.DownloadTask;
 import org.drombler.jstore.client.agent.startup.integration.impl.JacksonRequestBodyPublisher;
 import org.drombler.jstore.protocol.json.*;
 
@@ -25,11 +28,13 @@ public class JStoreClient {
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
     private final URI endpoint;
+    private final DownloadManager downloadManager;
 
-    public JStoreClient(HttpClient httpClient, ObjectMapper objectMapper, URI endpoint) {
+    public JStoreClient(HttpClient httpClient, ObjectMapper objectMapper, URI endpoint, DownloadManager downloadManager) {
         this.httpClient = httpClient;
         this.objectMapper = objectMapper;
         this.endpoint = endpoint;
+        this.downloadManager = downloadManager;
     }
 
     public List<UpgradableApplication> searchApplicationVersions(List<SelectedApplication> selectedApplications, SystemInfo systemInfo) throws JStoreClientException {
@@ -84,7 +89,7 @@ public class JStoreClient {
         }
     }
 
-    public List<UpgradableJRE> getJRE(SelectedJRE selectedJRE, SystemInfo systemInfo) throws JStoreClientException {
+    public DownloadTask getJRE(SelectedJRE selectedJRE, SystemInfo systemInfo) throws JStoreClientException {
         String path = createGetJREPath(selectedJRE, systemInfo);
 
         HttpCookie oraclelicense = new HttpCookie("oraclelicense", "accept-securebackup-cookie");
@@ -97,15 +102,8 @@ public class JStoreClient {
                 .GET()
                 .build();
 
-        HttpResponse<String> response = send(request);
+        return downloadManager.downloadFile(new DownloadId<>(selectedJRE), request);
 
-
-        if (response.statusCode() >= 200 && response.statusCode() < 300) {
-            JreVersionSearchResponse applicationVersionSearchResponse = readResponsePayload(response, JreVersionSearchResponse.class);
-            return applicationVersionSearchResponse.getUpgradableJREs();
-        } else {
-            throw new JStoreClientException(request.method() + " " + path + " call failed! Status code: " + response.statusCode(), response.statusCode());
-        }
     }
 
     private String createGetJREPath(SelectedJRE selectedJRE, SystemInfo systemInfo) {
@@ -155,6 +153,7 @@ public class JStoreClient {
             throw new JStoreClientException(e.getMessage(), e);
         }
     }
+
 
     private JacksonRequestBodyPublisher createJacksonRequestBodyProcessor(Object requestPayload) throws JStoreClientException {
         try {

@@ -7,7 +7,6 @@ import org.drombler.jstore.client.agent.startup.app.task.ApplicationInfoUpdater;
 import org.drombler.jstore.client.agent.startup.app.task.ApplicationUpdater;
 import org.drombler.jstore.client.agent.startup.app.task.model.ApplicationInfoUpdateInfo;
 import org.drombler.jstore.client.agent.startup.app.task.model.ApplicationUpdateInfo;
-import org.drombler.jstore.client.agent.startup.download.DownloadManager;
 import org.drombler.jstore.client.agent.startup.integration.JStoreClient;
 import org.drombler.jstore.client.agent.startup.integration.JStoreClientRegistry;
 import org.drombler.jstore.client.agent.startup.jre.JRECleaner;
@@ -21,8 +20,6 @@ import org.drombler.jstore.protocol.json.SelectedJRE;
 import org.drombler.jstore.protocol.json.Store;
 import org.drombler.jstore.protocol.json.SystemInfo;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -36,14 +33,12 @@ public class Updater implements Runnable {
     private final PreSelectedApplicationRegistry preSelectedApplicationRegistry;
     private final StoreRegistry storeRegistry;
     private final SystemInfo systemInfo;
-    private final DownloadManager downloadManager;
 
-    public Updater(StoreRegistry storeRegistry, JStoreClientRegistry jStoreClientRegistry, PreSelectedApplicationRegistry preSelectedApplicationRegistry) throws IOException {
+    public Updater(StoreRegistry storeRegistry, JStoreClientRegistry jStoreClientRegistry, PreSelectedApplicationRegistry preSelectedApplicationRegistry) {
         this.storeRegistry = storeRegistry;
         this.jStoreClientRegistry = jStoreClientRegistry;
         this.preSelectedApplicationRegistry = preSelectedApplicationRegistry;
         this.systemInfo = createSystemInfo();
-        this.downloadManager = new DownloadManager(Files.createTempDirectory("jstore"));
     }
 
     private SystemInfo createSystemInfo() {
@@ -146,7 +141,7 @@ public class Updater implements Runnable {
 
         List<JREUpdater> jreUpdaters = requiredButOutdatedOracleJREVersions.stream()
 //                .map(version -> new OracleJREUpdater(httpClient, version))
-                .map(selectedJRE -> new JREUpdater(jStoreClient, selectedJRE, systemInfo, downloadManager))
+                .map(selectedJRE -> new JREUpdater(jStoreClient, selectedJRE, systemInfo))
                 .collect(Collectors.toList());
         List<Future<JREUpdateInfo>> futureList = threadPoolExecutor.invokeAll(jreUpdaters, 20 * 60 * jreUpdaters.size(), TimeUnit.SECONDS);
 
