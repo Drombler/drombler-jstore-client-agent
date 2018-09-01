@@ -6,6 +6,7 @@ import org.drombler.jstore.client.agent.startup.download.DownloadId;
 import org.drombler.jstore.client.agent.startup.download.DownloadTask;
 
 import java.nio.file.Path;
+import java.util.OptionalLong;
 
 public class DownloadTaskBodyHandler<K> implements HttpResponse.BodyHandler<DownloadTask<K>> {
 
@@ -19,7 +20,10 @@ public class DownloadTaskBodyHandler<K> implements HttpResponse.BodyHandler<Down
 
     @Override
     public HttpResponse.BodySubscriber<DownloadTask<K>> apply(int statusCode, HttpHeaders responseHeaders) {
-        return HttpResponse.BodyHandler.asFile(downloadTempDirPath.resolve(downloadId.toString()));
+        OptionalLong contentLength = responseHeaders.firstValueAsLong("Content-Length");
+        Path filePath = downloadTempDirPath.resolve(downloadId.toString());
+        HttpResponse.BodyHandler.asFile(filePath);
 //        return new DownloadTaskBodySubscriber<>(downloadId, downloadTempDirPath);
+        return null;
     }
 }

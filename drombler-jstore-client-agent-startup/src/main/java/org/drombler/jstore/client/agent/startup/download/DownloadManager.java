@@ -16,12 +16,12 @@ public class DownloadManager {
         this.httpClient = httpClient;
     }
 
-    public <K> DownloadTask<K> downloadFile(DownloadId<K> id, HttpRequest request) {
+    public <K> DownloadTask<K> downloadFile(DownloadId<K> id, HttpRequest request, String fileName) {
 //        CompletableFuture<HttpResponse<Path>> response = httpClient.sendAsync(request, HttpResponse.BodyHandler.asFileDownload(downloadTempDirPath));
         CompletableFuture<HttpResponse<Path>> response = null;
 //        HttpResponse<Path> response = null;
 //        try {
-        response = httpClient.sendAsync(request, HttpResponse.BodyHandler.asFile(downloadTempDirPath.resolve("jre")));
+        response = httpClient.sendAsync(request, HttpResponse.BodyHandler.asFile(downloadTempDirPath.resolve(fileName)));
         return new DownloadTask<K>(id, response);
 //        } catch (IOException e) {
 //            e.printStackTrace();

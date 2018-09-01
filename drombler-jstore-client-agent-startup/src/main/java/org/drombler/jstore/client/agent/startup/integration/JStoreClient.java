@@ -89,8 +89,8 @@ public class JStoreClient {
         }
     }
 
-    public DownloadTask getJRE(SelectedJRE selectedJRE, SystemInfo systemInfo) throws JStoreClientException {
-        String path = createGetJREPath(selectedJRE, systemInfo);
+    public DownloadTask getJRE(UpgradableJRE upgradableJRE) throws JStoreClientException {
+        String path = createGetJREPath(upgradableJRE);
 
         HttpCookie oraclelicense = new HttpCookie("oraclelicense", "accept-securebackup-cookie");
         HttpRequest request = HttpRequest.newBuilder()
@@ -102,37 +102,18 @@ public class JStoreClient {
                 .GET()
                 .build();
 
-        return downloadManager.downloadFile(new DownloadId<>(selectedJRE), request);
+        return downloadManager.downloadFile(new DownloadId<>(upgradableJRE), request, upgradableJRE.getJreImplementationFileName());
 
     }
 
-    private String createGetJREPath(SelectedJRE selectedJRE, SystemInfo systemInfo) {
-        JreInfo jreInfo = selectedJRE.getJreInfo();
+    private String createGetJREPath(UpgradableJRE upgradableJRE) {
+        JreInfo jreInfo = upgradableJRE.getJreInfo();
 
         StringBuilder pathSB = new StringBuilder(MANAGED_COMPONENTS_V1_PATH)
                 .append("/jres/")
                 .append(URLEncoder.encode(jreInfo.getJreVendorId(), UTF8_CHARSET))
                 .append("/")
-                .append(URLEncoder.encode(jreInfo.getJavaSpecificationVersion(), UTF8_CHARSET))
-                .append("/")
-                .append(URLEncoder.encode(systemInfo.getOsName(), UTF8_CHARSET))
-                .append("/")
-                .append(URLEncoder.encode(systemInfo.getOsArch(), UTF8_CHARSET));
-        if ((selectedJRE.getInstalledImplementationVersion() != null && !selectedJRE.getInstalledImplementationVersion().equals(""))
-                || (systemInfo.getHeadless() != null && systemInfo.getHeadless())) {
-            pathSB.append("?");
-            boolean firstQueryParam = true;
-            if (selectedJRE.getInstalledImplementationVersion() != null && !selectedJRE.getInstalledImplementationVersion().equals("")) {
-                pathSB.append("installedImplementationVersion=").append(URLEncoder.encode(selectedJRE.getInstalledImplementationVersion(), UTF8_CHARSET));
-                firstQueryParam = false;
-            }
-            if (systemInfo.getHeadless() != null && systemInfo.getHeadless()) {
-                if (!firstQueryParam) {
-                    pathSB.append("&");
-                }
-                pathSB.append("headless=true");
-            }
-        }
+                .append(URLEncoder.encode(upgradableJRE.getJreImplementationId(), UTF8_CHARSET));
 
         return pathSB.toString();
     }

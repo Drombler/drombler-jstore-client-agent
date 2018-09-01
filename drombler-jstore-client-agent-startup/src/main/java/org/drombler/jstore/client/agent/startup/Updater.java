@@ -62,21 +62,18 @@ public class Updater implements Runnable {
         }
 
         try {
-            updateJREInfo();
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            e.printStackTrace();
-        }
-
-        try {
             updateApplications();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         try {
-            updateJREs();
-        } catch (InterruptedException e) {
+            JREInfoUpdateInfo jreInfoUpdateInfo = updateJREInfo();
+            updateJREs(jreInfoUpdateInfo);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
             e.printStackTrace();
         }
+
         try {
             cleanApplications();
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
@@ -102,14 +99,14 @@ public class Updater implements Runnable {
         return new HashSet<>();
     }
 
-    private void updateJREInfo() throws InterruptedException, ExecutionException, TimeoutException {
+    private JREInfoUpdateInfo updateJREInfo() throws InterruptedException, ExecutionException, TimeoutException {
         // TODO: get list from installed applications
 //        Set<String> jreSet = getRequiredJREs();
         List<SelectedJRE> selectedJREs = Arrays.asList(getSelectedJRE());
 
         JREInfoUpdater updater = new JREInfoUpdater(jStoreClientRegistry.getStoreClient(storeRegistry.getStores().iterator().next()), selectedJREs, systemInfo);
         Future<JREInfoUpdateInfo> future = threadPoolExecutor.submit(updater);
-        JREInfoUpdateInfo jreInfoUpdateInfo = future.get(1200, TimeUnit.SECONDS);
+        return future.get(1200, TimeUnit.SECONDS);
     }
 
     private Set<String> getRequiredJREs() {
@@ -131,17 +128,16 @@ public class Updater implements Runnable {
         return new HashSet<>();
     }
 
-    private void updateJREs() throws InterruptedException {
-        Set<SelectedJRE> requiredButOutdatedOracleJREVersions = getRequiredButOutdatedOracleJREVersions();
+    private void updateJREs(JREInfoUpdateInfo jreInfoUpdateInfo) throws InterruptedException {
 
         // TODO: iteratre
         Store store = storeRegistry.getStores().iterator().next();
         JStoreClient jStoreClient = jStoreClientRegistry.getStoreClient(store);
 
 
-        List<JREUpdater> jreUpdaters = requiredButOutdatedOracleJREVersions.stream()
+        List<JREUpdater> jreUpdaters = jreInfoUpdateInfo.getUpgradableJREs().stream()
 //                .map(version -> new OracleJREUpdater(httpClient, version))
-                .map(selectedJRE -> new JREUpdater(jStoreClient, selectedJRE, systemInfo))
+                .map(upgradableJRE -> new JREUpdater(jStoreClient, upgradableJRE))
                 .collect(Collectors.toList());
         List<Future<JREUpdateInfo>> futureList = threadPoolExecutor.invokeAll(jreUpdaters, 20 * 60 * jreUpdaters.size(), TimeUnit.SECONDS);
 

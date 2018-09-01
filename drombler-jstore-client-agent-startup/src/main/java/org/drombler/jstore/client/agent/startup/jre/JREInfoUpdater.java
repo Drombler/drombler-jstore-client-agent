@@ -25,7 +25,9 @@ public class JREInfoUpdater implements Callable<JREInfoUpdateInfo> {
 
     @Override
     public JREInfoUpdateInfo call() throws Exception {
-        List<UpgradableJRE> upgradableJRES = jStoreClient.startJreVersionSearch(selectedJREs, systemInfo);
-        return null;
+        List<UpgradableJRE> upgradableJREs = jStoreClient.startJreVersionSearch(selectedJREs, systemInfo);
+        JREInfoUpdateInfo jreInfoUpdateInfo = new JREInfoUpdateInfo();
+        jreInfoUpdateInfo.setUpgradableJREs(upgradableJREs);
+        return jreInfoUpdateInfo;
     }
 }

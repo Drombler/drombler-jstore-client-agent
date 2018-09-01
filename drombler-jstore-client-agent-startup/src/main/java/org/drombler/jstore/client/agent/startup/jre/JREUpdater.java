@@ -5,7 +5,7 @@ import org.drombler.jstore.client.agent.startup.integration.JStoreClient;
 import org.drombler.jstore.client.agent.startup.integration.JStoreClientException;
 import org.drombler.jstore.client.agent.startup.jre.model.JREUpdateInfo;
 import org.drombler.jstore.protocol.json.SelectedJRE;
-import org.drombler.jstore.protocol.json.SystemInfo;
+import org.drombler.jstore.protocol.json.UpgradableJRE;
 
 import java.util.concurrent.Callable;
 
@@ -14,18 +14,16 @@ import java.util.concurrent.Callable;
  */
 public class JREUpdater implements Callable<JREUpdateInfo> {
     private final JStoreClient jStoreClient;
-    private final SelectedJRE selectedJRE;
-    private final SystemInfo systemInfo;
+    private final UpgradableJRE upgradableJRE;
 
-    public JREUpdater(JStoreClient jStoreClient, SelectedJRE selectedJRE, SystemInfo systemInfo) {
+    public JREUpdater(JStoreClient jStoreClient, UpgradableJRE upgradableJRE) {
         this.jStoreClient = jStoreClient;
-        this.selectedJRE = selectedJRE;
-        this.systemInfo = systemInfo;
+        this.upgradableJRE = upgradableJRE;
     }
 
     @Override
     public JREUpdateInfo call() throws JStoreClientException {
-        DownloadTask<SelectedJRE> downloadTask = jStoreClient.getJRE(selectedJRE, systemInfo);
+        DownloadTask<SelectedJRE> downloadTask = jStoreClient.getJRE(upgradableJRE);
         downloadTask.getResponse()
                 .thenAccept(response -> System.out.println(response.body()))
                 .exceptionally(ex -> {
