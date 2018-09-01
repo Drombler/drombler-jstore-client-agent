@@ -89,7 +89,7 @@ public class JStoreClient {
         }
     }
 
-    public DownloadTask getJRE(UpgradableJRE upgradableJRE) throws JStoreClientException {
+    public DownloadTask<UpgradableJRE> getJRE(UpgradableJRE upgradableJRE) throws JStoreClientException {
         String path = createGetJREPath(upgradableJRE);
 
         HttpCookie oraclelicense = new HttpCookie("oraclelicense", "accept-securebackup-cookie");
