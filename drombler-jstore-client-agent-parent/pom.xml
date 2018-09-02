@@ -157,7 +157,7 @@ Contributor(s): .
             <dependency>
                 <groupId>org.drombler.jstore.protocol</groupId>
                 <artifactId>drombler-jstore-protocol</artifactId>
-                <version>0.3-SNAPSHOT</version>
+                <version>0.3</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
