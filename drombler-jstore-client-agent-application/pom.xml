@@ -43,7 +43,6 @@ Contributor(s): .
             <plugin>
                 <groupId>org.drombler.jstore</groupId>
                 <artifactId>jap-maven-plugin</artifactId>
-                <version>0.1.0-SNAPSHOT</version>
                 <extensions>true</extensions>
             </plugin>
             <plugin>

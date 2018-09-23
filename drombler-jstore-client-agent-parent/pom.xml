@@ -95,6 +95,7 @@ Contributor(s): .
 
         <!-- Dependency Versions Defaults -->
         <drombler-commons.version>0.13</drombler-commons.version>
+        <drombler-jap.version>0.1</drombler-jap.version>
     </properties>
 
     <!-- Not inherited!?? -->
@@ -140,6 +141,11 @@ Contributor(s): .
                             <version>3.7</version> <!-- should be fixed in maven-javadoc-plugin v3.0.1-->
                         </dependency>
                     </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.drombler.jstore</groupId>
+                    <artifactId>jap-maven-plugin</artifactId>
+                    <version>${drombler-jap.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
