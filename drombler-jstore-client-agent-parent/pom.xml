@@ -74,7 +74,7 @@ Contributor(s): .
         <java.min.version>10</java.min.version>
         <plugin.compiler.version>3.7.0</plugin.compiler.version>
         <plugin.jar.version>3.1.0</plugin.jar.version>
-        <plugin.javadoc.version>3.0.1-SNAPSHOT</plugin.javadoc.version>
+        <plugin.javadoc.version>3.0.1</plugin.javadoc.version>
 
 
         <!-- Dev Environment Defaults -->
@@ -94,7 +94,7 @@ Contributor(s): .
         <!--<url.parent>http://www.drombler.org/drombler-fx/${project.version}/docs/site</url.parent>-->
 
         <!-- Dependency Versions Defaults -->
-        <drombler-commons.version>0.12</drombler-commons.version>
+        <drombler-commons.version>0.13</drombler-commons.version>
     </properties>
 
     <!-- Not inherited!?? -->
