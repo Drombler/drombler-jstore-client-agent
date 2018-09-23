@@ -1,0 +1,30 @@
+{
+  "storeConfigurations": [
+    {
+      "store": {
+        "id": "jstore",
+        "displayName": "Drombler JStore",
+        "endpoint": "http://drombler-jstore-staging.us-east-1.elasticbeanstalk.com/webresources"
+        //        "endpoint": "http://localhost:5000/webresources"
+      },
+      "preSelectedApplications": [
+        {
+          "applicationId": {
+            "groupId": "org.drombler.jstore.client.agent",
+            "artifactId": "drombler-jstore-client-agent-application"
+          },
+          "autodownload": true,
+          "autoinstall": true
+        },
+        {
+          "applicationId": {
+            "groupId": "org.drombler.jstore.client",
+            "artifactId": "drombler-jstore-client-application"
+          },
+          "autodownload": true,
+          "autoinstall": true
+        }
+      ]
+    }
+  ]
+}

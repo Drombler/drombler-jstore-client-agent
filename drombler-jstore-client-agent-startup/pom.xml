@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.drombler.jstore.client.agent</groupId>
+        <artifactId>drombler-jstore-client-agent-parent</artifactId>
+        <version>0.1</version>
+        <relativePath>../drombler-jstore-client-agent-parent/pom.xml</relativePath>
+    </parent>
+    <artifactId>drombler-jstore-client-agent-startup</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Drombler JStore Client Agent - Startup</name>
+    <description />
+    <inceptionYear>2018</inceptionYear>
+    <properties>
+        <jersey.version>2.27</jersey.version>
+    </properties>
+
+
+
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>drombler-jstore-client-agent-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drombler.commons</groupId>
+            <artifactId>drombler-commons-client-startup-main</artifactId>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>${project.groupId}</groupId>-->
+        <!--<artifactId>drombler-jstore-client-agent-browserdriver</artifactId>-->
+        <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.slf4j</groupId>-->
+        <!--<artifactId>slf4j-api</artifactId>-->
+        <!--<version>1.7.22</version>-->
+        <!--</dependency>-->
+
+        <!-- Replace with any SLF4J binding you like-->
+        <!-- Here the binding for java.util.logging is used, since the jar is very small. -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.drombler.jstore.protocol</groupId>
+            <artifactId>drombler-jstore-protocol</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.softsmithy.lib</groupId>
+            <artifactId>softsmithy-lib-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.2.0</version>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.6.0</version>
+                    <executions>
+                        <execution>
+                            <id>default-cli</id>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <configuration>
+                                <commandlineArgs>--add-modules jdk.incubator.httpclient -Duser.language=en
+                                    -Duser.country=US
+                                    org.drombler.jstore.client.agent.startup/org.drombler.jstore.client.agent.startup.JStoreClientAgent
+                                </commandlineArgs>
+                                <executable>java</executable>
+                                <workingDirectory>${project.build.directory}/deployment/standalone</workingDirectory>
+                                <classpathScope>runtime</classpathScope>
+                                <!--<arguments>-->
+                                <!--<argument>-classpath</argument>-->
+                                <!--&lt;!&ndash; automatically creates the classpath using all project dependencies,-->
+                                <!--also adding the project build directory &ndash;&gt;-->
+                                <!--<classpath />-->
+                                <!--<argument>&#45;&#45;add-modules</argument>-->
+                                <!--<argument>jdk.incubator.httpclient</argument>-->
+                                <!--<argument>JStoreClientAgent</argument>-->
+                                <!--</arguments>-->
+                                <!--<workingDirectory>${project.build.directory}</workingDirectory>-->
+                                <!--<classpathScope>runtime</classpathScope>-->
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addClasspath>true</addClasspath>
+                                <classpathPrefix>lib/</classpathPrefix>
+                                <mainClass>org.drombler.jstore.client.agent.startup.JStoreClientAgent</mainClass>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>
