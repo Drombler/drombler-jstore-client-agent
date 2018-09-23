@@ -18,7 +18,7 @@ Contributor(s): .
     <parent>
         <groupId>org.drombler.jstore.client.agent</groupId>
         <artifactId>drombler-jstore-client-agent-parent</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.1</version>
         <relativePath>../drombler-jstore-client-agent-parent/pom.xml</relativePath>
     </parent>
 
