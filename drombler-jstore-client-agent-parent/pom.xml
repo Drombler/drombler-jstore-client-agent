@@ -18,7 +18,7 @@ Contributor(s): .
     <parent>
         <groupId>org.drombler</groupId>
         <artifactId>drombler-oss-parent</artifactId>
-        <version>3.1</version>
+        <version>3.2-SNAPSHOT</version>
         <relativePath />
     </parent>
 
@@ -93,8 +93,8 @@ Contributor(s): .
         <!--<url.parent>http://www.drombler.org/drombler-fx/${project.version}/docs/site</url.parent>-->
 
         <!-- Dependency Versions Defaults -->
-        <drombler-commons.version>0.13</drombler-commons.version>
-        <drombler-jap.version>0.1</drombler-jap.version>
+        <drombler-commons.version>0.14-SNAPSHOT</drombler-commons.version>
+        <drombler-jap.version>0.2-SNAPSHOT</drombler-jap.version>
     </properties>
 
     <!-- Not inherited!?? -->
@@ -162,7 +162,7 @@ Contributor(s): .
             <dependency>
                 <groupId>org.drombler.jstore.protocol</groupId>
                 <artifactId>drombler-jstore-protocol</artifactId>
-                <version>0.3</version>
+                <version>0.4-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
