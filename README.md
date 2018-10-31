@@ -7,7 +7,7 @@ The _Drombler JStore Client Agent_ can access multiple [Drombler JStore](https:/
 Note: by installing / using this software you're agreeing to the [Oracle Binary Code License](Oracle-BCL.txt).
 Please see the [Oracle Java web site](http://java.oracle.com) for the latest version of this license.
 
-You can get the binary from the [latest release](https://github.com/Drombler/drombler-jstore-client-agent/releases/latest).
+You can get the binary from the [latest release](https://github.com/Drombler/drombler-jstore-client-agent/releases/latest) (early access release).
 
 ## Current Goals
 
