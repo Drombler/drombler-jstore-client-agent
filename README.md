@@ -1,6 +1,8 @@
 # Drombler JStore Client Agent
 
-A headless background service which runs on end-user devices (desktops, NAS, IoT devices,...)
+A headless background service which runs on end-user devices (desktops, NAS, IoT devices,...).
+
+The _Drombler JStore Client Agent_ can access multiple backends.
 
 Note: by installing / using this software you're agreeing to the [Oracle Binary Code License](Oracle-BCL.txt).
 Please see the [Oracle Java web site](http://java.oracle.com) for the latest version of this license.
