@@ -17,7 +17,4 @@ Under Construction
   * desktop shortcuts
   * URL protocol registration
   * run as native OS service/ deamon
-  
-### Current State
-* Access a first Drombler JStore REST service
-* Download a JRE from Oracle
+
