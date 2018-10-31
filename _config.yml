@@ -1,1 +1,7 @@
+title: Drombler JStore Client Agent
+description: Manages, downloads and updates applications and native components from multiple Drombler JStore Client Agent backends.
+google_analytics:
 theme: jekyll-theme-slate
+
+gems:
+- jekyll-mentions
