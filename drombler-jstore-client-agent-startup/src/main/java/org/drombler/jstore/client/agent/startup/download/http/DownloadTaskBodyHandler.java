@@ -1,10 +1,10 @@
 package org.drombler.jstore.client.agent.startup.download.http;
 
-import jdk.incubator.http.HttpHeaders;
-import jdk.incubator.http.HttpResponse;
+
 import org.drombler.jstore.client.agent.startup.download.DownloadId;
 import org.drombler.jstore.client.agent.startup.download.DownloadTask;
 
+import java.net.http.HttpResponse;
 import java.nio.file.Path;
 import java.util.OptionalLong;
 
@@ -19,10 +19,10 @@ public class DownloadTaskBodyHandler<K> implements HttpResponse.BodyHandler<Down
     }
 
     @Override
-    public HttpResponse.BodySubscriber<DownloadTask<K>> apply(int statusCode, HttpHeaders responseHeaders) {
-        OptionalLong contentLength = responseHeaders.firstValueAsLong("Content-Length");
+    public HttpResponse.BodySubscriber<DownloadTask<K>> apply(HttpResponse.ResponseInfo responseInfo) {
+        OptionalLong contentLength = responseInfo.headers().firstValueAsLong("Content-Length");
         Path filePath = downloadTempDirPath.resolve(downloadId.toString());
-        HttpResponse.BodyHandler.asFile(filePath);
+        HttpResponse.BodyHandlers.ofFile(filePath);
 //        return new DownloadTaskBodySubscriber<>(downloadId, downloadTempDirPath);
         return null;
     }

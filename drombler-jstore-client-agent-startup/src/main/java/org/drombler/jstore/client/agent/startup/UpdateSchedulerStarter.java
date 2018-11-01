@@ -1,7 +1,6 @@
 package org.drombler.jstore.client.agent.startup;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.incubator.http.HttpClient;
 import org.drombler.commons.client.startup.main.BootServiceStarter;
 import org.drombler.jstore.client.agent.model.PreSelectedApplicationRegistry;
 import org.drombler.jstore.client.agent.model.converter.StoreNormalizer;
@@ -15,6 +14,7 @@ import org.drombler.jstore.protocol.json.StoreConfiguration;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.http.HttpClient;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;

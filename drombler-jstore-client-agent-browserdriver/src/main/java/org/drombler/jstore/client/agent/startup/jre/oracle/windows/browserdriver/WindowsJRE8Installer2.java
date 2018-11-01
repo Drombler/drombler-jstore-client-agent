@@ -1,13 +1,13 @@
 package org.drombler.jstore.client.agent.startup.jre.oracle.windows.browserdriver;
 
 import com.machinepublishers.jbrowserdriver.JBrowserDriver;
-import jdk.incubator.http.HttpClient;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
+import java.net.http.HttpClient;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;

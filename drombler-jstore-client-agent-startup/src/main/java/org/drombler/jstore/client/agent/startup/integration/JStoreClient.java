@@ -2,9 +2,6 @@ package org.drombler.jstore.client.agent.startup.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.incubator.http.HttpClient;
-import jdk.incubator.http.HttpRequest;
-import jdk.incubator.http.HttpResponse;
 import org.drombler.jstore.client.agent.startup.commons.http.StandardHttpHeaderFieldNames;
 import org.drombler.jstore.client.agent.startup.commons.http.StandardMimeTypes;
 import org.drombler.jstore.client.agent.startup.download.DownloadId;
@@ -17,6 +14,9 @@ import java.io.IOException;
 import java.net.HttpCookie;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -129,7 +129,7 @@ public class JStoreClient {
     private HttpResponse<String> send(HttpRequest request) throws JStoreClientException {
         try {
             //       HttpResponse<ApplicationVersionSearchResponse> response = httpClient.send(request, new JacksonBodyHandler<>(objectMapper, ApplicationVersionSearchResponse.class));
-            return httpClient.send(request, HttpResponse.BodyHandler.asString());
+            return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             throw new JStoreClientException(e.getMessage(), e);
         }

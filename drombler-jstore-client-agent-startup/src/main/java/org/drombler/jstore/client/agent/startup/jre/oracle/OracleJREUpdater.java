@@ -1,10 +1,10 @@
 package org.drombler.jstore.client.agent.startup.jre.oracle;
 
-import jdk.incubator.http.HttpClient;
 import org.drombler.jstore.client.agent.startup.jre.model.JREUpdateInfo;
 import org.drombler.jstore.client.agent.startup.jre.oracle.windows.WindowsJRE8Installer2;
 
 import java.io.IOException;
+import java.net.http.HttpClient;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

@@ -1,11 +1,11 @@
 package org.drombler.jstore.client.agent.startup.jre.oracle.windows;
 
-import jdk.incubator.http.HttpClient;
 import org.drombler.jstore.client.agent.startup.commons.HttpClientUtils;
 import org.drombler.jstore.client.agent.startup.jre.JREInstaller;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;

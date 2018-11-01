@@ -1,9 +1,9 @@
 package org.drombler.jstore.client.agent.startup.download;
 
-import jdk.incubator.http.HttpClient;
-import jdk.incubator.http.HttpRequest;
-import jdk.incubator.http.HttpResponse;
 
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 
@@ -21,7 +21,7 @@ public class DownloadManager {
         CompletableFuture<HttpResponse<Path>> response = null;
 //        HttpResponse<Path> response = null;
 //        try {
-        response = httpClient.sendAsync(request, HttpResponse.BodyHandler.asFile(downloadTempDirPath.resolve(fileName)));
+        response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofFile(downloadTempDirPath.resolve(fileName)));
         return new DownloadTask<K>(id, response);
 //        } catch (IOException e) {
 //            e.printStackTrace();

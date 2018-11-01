@@ -1,5 +1,5 @@
 module org.drombler.jstore.client.agent.startup {
-    requires jdk.incubator.httpclient;
+    requires java.net.http;
     requires org.drombler.jstore.protocol;
     requires drombler.commons.client.startup.main;
     requires com.fasterxml.jackson.core;

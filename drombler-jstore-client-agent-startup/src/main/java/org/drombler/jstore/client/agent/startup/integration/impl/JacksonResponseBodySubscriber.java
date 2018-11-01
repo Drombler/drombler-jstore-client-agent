@@ -1,9 +1,9 @@
 package org.drombler.jstore.client.agent.startup.integration.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.incubator.http.HttpResponse.BodySubscriber;
 
 import java.io.IOException;
+import java.net.http.HttpResponse.BodySubscriber;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.List;

@@ -2,8 +2,9 @@ package org.drombler.jstore.client.agent.startup.integration.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.incubator.http.HttpRequest.BodyPublisher;
 
+import java.net.http.HttpRequest.BodyPublisher;
+import java.net.http.HttpRequest.BodyPublishers;
 import java.nio.ByteBuffer;
 import java.util.concurrent.Flow;
 
@@ -12,7 +13,7 @@ public class JacksonRequestBodyPublisher implements BodyPublisher {
 
     public JacksonRequestBodyPublisher(ObjectMapper objectMapper, Object payLoad) throws JsonProcessingException {
         String serialized = objectMapper.writeValueAsString(payLoad);
-        this.stringBodyPublisher = BodyPublisher.fromString(serialized);
+        this.stringBodyPublisher = BodyPublishers.ofString(serialized);
     }
 
     @Override

@@ -1,13 +1,13 @@
 package org.drombler.jstore.client.agent.startup.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.incubator.http.HttpClient;
 import org.drombler.jstore.client.agent.startup.download.DownloadManager;
 import org.drombler.jstore.protocol.json.Store;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.http.HttpClient;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;

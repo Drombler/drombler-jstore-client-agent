@@ -1,7 +1,7 @@
 package org.drombler.jstore.client.agent.startup.download;
 
-import jdk.incubator.http.HttpResponse;
 
+import java.net.http.HttpResponse;
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 
