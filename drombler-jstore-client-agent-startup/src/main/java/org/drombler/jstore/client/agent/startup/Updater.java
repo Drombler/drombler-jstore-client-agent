@@ -149,7 +149,7 @@ public class Updater implements Runnable {
         SelectedJRE selectedJRE = new SelectedJRE();
         JreInfo jreInfo = new JreInfo();
         jreInfo.setJreVendorId("oracle");
-        jreInfo.setJavaSpecificationVersion("10");
+        jreInfo.setJavaSpecificationVersion("11");
         selectedJRE.setJreInfo(jreInfo);
         return selectedJRE;
     }

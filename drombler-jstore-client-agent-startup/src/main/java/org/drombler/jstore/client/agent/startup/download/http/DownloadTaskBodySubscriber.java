@@ -1,9 +1,9 @@
 package org.drombler.jstore.client.agent.startup.download.http;
 
-import jdk.incubator.http.HttpResponse;
 import org.drombler.jstore.client.agent.startup.download.DownloadId;
 import org.drombler.jstore.client.agent.startup.download.DownloadTask;
 
+import java.net.http.HttpResponse;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.util.List;

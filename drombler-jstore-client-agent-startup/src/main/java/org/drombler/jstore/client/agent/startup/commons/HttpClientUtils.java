@@ -1,14 +1,14 @@
 package org.drombler.jstore.client.agent.startup.commons;
 
-import jdk.incubator.http.HttpClient;
-import jdk.incubator.http.HttpRequest;
-import jdk.incubator.http.HttpResponse;
 
 import java.io.IOException;
 import java.net.CookieManager;
 import java.net.HttpCookie;
 import java.net.ProxySelector;
 import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutionException;
@@ -30,7 +30,7 @@ public class HttpClientUtils {
                 .build();
 //            CompletableFuture<HttpResponse<Path>> completableFuture = httpClient.sendAsync(request, HttpResponse.BodyHandler.asFile(targetFile));
 //            HttpResponse<Path> pathHttpResponse = completableFuture.get(10, TimeUnit.MINUTES);
-        HttpResponse<Path> pathHttpResponse = httpClient.send(request, HttpResponse.BodyHandler.asFile(targetFile));
+        HttpResponse<Path> pathHttpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofFile(targetFile));
 //        HttpResponse<Path> pathHttpResponse = completableFuture.get(10, TimeUnit.MINUTES);
         System.out.println(pathHttpResponse.statusCode());
         Path body = pathHttpResponse.body();

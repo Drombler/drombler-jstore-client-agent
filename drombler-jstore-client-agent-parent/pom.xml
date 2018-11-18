@@ -70,10 +70,10 @@ Contributor(s): .
     </distributionManagement>
 
     <properties>
-        <java.min.version>10</java.min.version>
-        <plugin.compiler.version>3.7.0</plugin.compiler.version>
-        <plugin.jar.version>3.1.0</plugin.jar.version>
-        <plugin.javadoc.version>3.0.1</plugin.javadoc.version>
+        <java.min.version>11</java.min.version>
+        <!--<plugin.compiler.version>3.7.0</plugin.compiler.version>-->
+        <!--<plugin.jar.version>3.1.0</plugin.jar.version>-->
+        <!--<plugin.javadoc.version>3.0.1</plugin.javadoc.version>-->
 
 
         <!-- Dev Environment Defaults -->
@@ -110,10 +110,6 @@ Contributor(s): .
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
                         <release>${java.min.version}</release>
-                        <compilerArgs>
-                            <arg>--add-modules</arg>
-                            <arg>jdk.incubator.httpclient</arg>
-                        </compilerArgs>
                     </configuration>
                     <dependencies>
                         <dependency>
