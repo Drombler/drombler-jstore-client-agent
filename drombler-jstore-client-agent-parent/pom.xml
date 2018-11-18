@@ -111,32 +111,26 @@ Contributor(s): .
                     <configuration>
                         <release>${java.min.version}</release>
                     </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.ow2.asm</groupId>
-                            <artifactId>asm</artifactId>
-                            <version>6.1.1</version> <!-- Use newer version of ASM -->
-                        </dependency>
-                    </dependencies>
+                    <!--<dependencies>-->
+                    <!--<dependency>-->
+                    <!--<groupId>org.ow2.asm</groupId>-->
+                    <!--<artifactId>asm</artifactId>-->
+                    <!--<version>6.1.1</version> &lt;!&ndash; Use newer version of ASM &ndash;&gt;-->
+                    <!--</dependency>-->
+                    <!--</dependencies>-->
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${plugin.javadoc.version}</version>
-                    <configuration>
-                        <additionalOptions>
-                            <additionalOption>--add-modules</additionalOption>
-                            <additionalOption>jdk.incubator.httpclient</additionalOption>
-                        </additionalOptions>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.apache.commons</groupId>
-                            <artifactId>commons-lang3</artifactId>
-                            <version>3.7</version> <!-- should be fixed in maven-javadoc-plugin v3.0.1-->
-                        </dependency>
-                    </dependencies>
-                </plugin>
+                <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-javadoc-plugin</artifactId>-->
+                <!--<version>${plugin.javadoc.version}</version>-->
+                <!--<dependencies>-->
+                <!--<dependency>-->
+                <!--<groupId>org.apache.commons</groupId>-->
+                <!--<artifactId>commons-lang3</artifactId>-->
+                <!--<version>3.7</version> &lt;!&ndash; should be fixed in maven-javadoc-plugin v3.0.1&ndash;&gt;-->
+                <!--</dependency>-->
+                <!--</dependencies>-->
+                <!--</plugin>-->
                 <plugin>
                     <groupId>org.drombler.jstore</groupId>
                     <artifactId>jap-maven-plugin</artifactId>
