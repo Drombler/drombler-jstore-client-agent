@@ -4,6 +4,8 @@ import org.drombler.jstore.protocol.json.ApplicationId;
 import org.drombler.jstore.protocol.json.PreSelectedApplication;
 import org.drombler.jstore.protocol.json.Store;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +15,10 @@ public class PreSelectedApplicationRegistry {
     public boolean containsPreSelectedApplication(Store store, ApplicationId applicationId) {
         return preSelectedApplicationMap.containsKey(store.getId())
                 && preSelectedApplicationMap.get(store.getId()).containsKey(applicationId);
+    }
+
+    public Collection<PreSelectedApplication> getPreSelectedApplication(Store store) {
+        return preSelectedApplicationMap.getOrDefault(store.getId(), Collections.emptyMap()).values();
     }
 
     public PreSelectedApplication getPreSelectedApplication(Store store, ApplicationId applicationId) {

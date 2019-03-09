@@ -2,11 +2,11 @@ package org.drombler.jstore.client.agent.startup.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.drombler.jstore.client.agent.download.DownloadId;
+import org.drombler.jstore.client.agent.download.DownloadManager;
+import org.drombler.jstore.client.agent.download.DownloadTask;
 import org.drombler.jstore.client.agent.startup.commons.http.StandardHttpHeaderFieldNames;
 import org.drombler.jstore.client.agent.startup.commons.http.StandardMimeTypes;
-import org.drombler.jstore.client.agent.startup.download.DownloadId;
-import org.drombler.jstore.client.agent.startup.download.DownloadManager;
-import org.drombler.jstore.client.agent.startup.download.DownloadTask;
 import org.drombler.jstore.client.agent.startup.integration.impl.JacksonRequestBodyPublisher;
 import org.drombler.jstore.protocol.json.*;
 
@@ -18,6 +18,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class JStoreClient {
@@ -37,9 +39,9 @@ public class JStoreClient {
         this.downloadManager = downloadManager;
     }
 
-    public List<UpgradableApplication> searchApplicationVersions(List<SelectedApplication> selectedApplications, SystemInfo systemInfo) throws JStoreClientException {
+    public List<UpgradableApplication> searchApplicationVersions(Collection<SelectedApplication> selectedApplications, SystemInfo systemInfo) throws JStoreClientException {
         ApplicationVersionSearchRequest requestPayload = new ApplicationVersionSearchRequest();
-        requestPayload.setSelectedApplications(selectedApplications);
+        requestPayload.setSelectedApplications(new ArrayList<>(selectedApplications));
         requestPayload.setSystemInfo(systemInfo);
 
         String path = MANAGED_COMPONENTS_V1_PATH + "/application-version-search";
@@ -142,5 +144,34 @@ public class JStoreClient {
         } catch (JsonProcessingException e) {
             throw new JStoreClientException(e.getMessage(), e);
         }
+    }
+
+    public DownloadTask<UpgradableApplication> getApplication(UpgradableApplication upgradableApplication) {
+        String path = createGetApplicationPath(upgradableApplication);
+
+        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(URI.create("http://jstore.drombler.com"))
+                .uri(endpoint.resolve(path))
+//                    .timeout(Duration.of(10, ChronoUnit.MINUTES))
+//                .setHeader(StandardHttpHeaderFieldNames.ACCEPT, StandardMimeTypes.BINARY)
+                .GET()
+                .build();
+
+        return downloadManager.downloadFile(new DownloadId<>(upgradableApplication), request, upgradableApplication.getLatestUpgradableApplicationVersion());
+
+    }
+
+    private String createGetApplicationPath(UpgradableApplication upgradableApplication) {
+        ApplicationId applicationId = upgradableApplication.getApplicationId();
+
+        StringBuilder pathSB = new StringBuilder(MANAGED_COMPONENTS_V1_PATH)
+                .append("/applications/")
+//                .append(URLEncoder.encode(applicationId.getGroupId(), UTF8_CHARSET))
+//                .append("/")
+//                .append(URLEncoder.encode(applicationId.getArtifactId(), UTF8_CHARSET))
+//                .append("/")
+                .append(URLEncoder.encode(upgradableApplication.getLatestUpgradableApplicationVersion(), UTF8_CHARSET));
+
+        return pathSB.toString();
     }
 }

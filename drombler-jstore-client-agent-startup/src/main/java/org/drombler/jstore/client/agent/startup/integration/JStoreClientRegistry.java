@@ -1,7 +1,8 @@
 package org.drombler.jstore.client.agent.startup.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.drombler.jstore.client.agent.startup.download.DownloadManager;
+import org.drombler.jstore.client.agent.download.DownloadHistory;
+import org.drombler.jstore.client.agent.download.DownloadManager;
 import org.drombler.jstore.protocol.json.Store;
 
 import java.io.IOException;
@@ -17,11 +18,13 @@ public class JStoreClientRegistry {
     private final ObjectMapper objectMapper;
     private final Map<String, JStoreClient> jStoreClientMap = new HashMap<>();
     private final DownloadManager downloadManager;
+    private final DownloadHistory downloadHistory = task -> {
+    };
 
     public JStoreClientRegistry(HttpClient httpClient, ObjectMapper objectMapper) throws IOException {
         this.httpClient = httpClient;
         this.objectMapper = objectMapper;
-        this.downloadManager = new DownloadManager(Files.createTempDirectory("jstore"), httpClient);
+        this.downloadManager = new DownloadManager(Files.createTempDirectory("jstore"), httpClient, downloadHistory);
     }
 
     public void registerStore(Store store) throws URISyntaxException {
