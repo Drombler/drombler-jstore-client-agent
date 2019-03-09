@@ -1,9 +1,11 @@
 package org.drombler.jstore.client.agent.startup.app.task;
 
-import org.drombler.jstore.client.agent.startup.app.ApplicationInfo;
+import org.drombler.jstore.client.agent.download.DownloadTask;
 import org.drombler.jstore.client.agent.startup.app.task.model.ApplicationUpdateInfo;
+import org.drombler.jstore.client.agent.startup.integration.JStoreClient;
 import org.drombler.jstore.protocol.json.ApplicationId;
 import org.drombler.jstore.protocol.json.Store;
+import org.drombler.jstore.protocol.json.UpgradableApplication;
 import org.softsmithy.lib.nio.file.CopyFileVisitor;
 import org.softsmithy.lib.nio.file.JarFiles;
 
@@ -20,8 +22,12 @@ import java.util.concurrent.Callable;
 public class ApplicationUpdater implements Callable<ApplicationUpdateInfo> {
 
 
-    public ApplicationUpdater(ApplicationInfo applicationInfo) {
+    private final JStoreClient jStoreClient;
+    private final UpgradableApplication upgradableApplication;
 
+    public ApplicationUpdater(JStoreClient jStoreClient, UpgradableApplication upgradableApplication) {
+        this.jStoreClient = jStoreClient;
+        this.upgradableApplication = upgradableApplication;
     }
 
     @Override
@@ -44,9 +50,13 @@ public class ApplicationUpdater implements Callable<ApplicationUpdateInfo> {
 
 
     private Path downloadApplication() {
-//Files.createTempFile();
-//        File file;
-//        file.deleteOnExit();
+        DownloadTask<UpgradableApplication> downloadTask = jStoreClient.getApplication(upgradableApplication);
+        downloadTask.getResponse()
+                .thenApply(response -> new ApplicationUpdateInfo(upgradableApplication, response.body()))
+                .exceptionally(ex -> {
+                    System.out.println(ex);
+                    return null;
+                });
         return null;
     }
 

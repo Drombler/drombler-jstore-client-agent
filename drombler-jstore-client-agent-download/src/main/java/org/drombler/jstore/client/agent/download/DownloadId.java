@@ -1,4 +1,4 @@
-package org.drombler.jstore.client.agent.startup.download;
+package org.drombler.jstore.client.agent.download;
 
 import java.util.Objects;
 

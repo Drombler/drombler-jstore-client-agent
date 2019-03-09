@@ -4,8 +4,8 @@
       "store": {
         "id": "jstore",
         "displayName": "Drombler JStore",
-        "endpoint": "http://drombler-jstore-staging.us-east-1.elasticbeanstalk.com/webresources"
-        //        "endpoint": "http://localhost:5000/webresources"
+        "endpoint": "http://drombler-jstore-staging.us-east-1.elasticbeanstalk.com/api"
+        //        "endpoint": "http://localhost:5000/api"
       },
       "preSelectedApplications": [
         {

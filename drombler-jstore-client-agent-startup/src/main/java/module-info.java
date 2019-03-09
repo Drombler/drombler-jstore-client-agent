@@ -6,4 +6,5 @@ module org.drombler.jstore.client.agent.startup {
     requires com.fasterxml.jackson.databind;
     requires org.softsmithy.lib.core;
     requires org.drombler.jstore.client.agent.model;
+    requires org.drombler.jstore.client.agent.download;
 }

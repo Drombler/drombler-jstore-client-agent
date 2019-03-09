@@ -14,6 +14,7 @@ import org.drombler.jstore.client.agent.startup.jre.JREInfoUpdater;
 import org.drombler.jstore.client.agent.startup.jre.JREUpdater;
 import org.drombler.jstore.client.agent.startup.jre.model.JREInfoUpdateInfo;
 import org.drombler.jstore.client.agent.startup.jre.model.JREUpdateInfo;
+import org.drombler.jstore.client.agent.startup.managedcomponent.application.ApplicationManager;
 import org.drombler.jstore.protocol.StoreRegistry;
 import org.drombler.jstore.protocol.json.JreInfo;
 import org.drombler.jstore.protocol.json.SelectedJRE;
@@ -31,13 +32,15 @@ public class Updater implements Runnable {
     private final ExecutorService threadPoolExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     private final JStoreClientRegistry jStoreClientRegistry;
     private final PreSelectedApplicationRegistry preSelectedApplicationRegistry;
+    private final ApplicationManager applicationManager;
     private final StoreRegistry storeRegistry;
     private final SystemInfo systemInfo;
 
-    public Updater(StoreRegistry storeRegistry, JStoreClientRegistry jStoreClientRegistry, PreSelectedApplicationRegistry preSelectedApplicationRegistry) {
+    public Updater(StoreRegistry storeRegistry, JStoreClientRegistry jStoreClientRegistry, PreSelectedApplicationRegistry preSelectedApplicationRegistry, ApplicationManager applicationManager) {
         this.storeRegistry = storeRegistry;
         this.jStoreClientRegistry = jStoreClientRegistry;
         this.preSelectedApplicationRegistry = preSelectedApplicationRegistry;
+        this.applicationManager = applicationManager;
         this.systemInfo = createSystemInfo();
     }
 
@@ -56,14 +59,9 @@ public class Updater implements Runnable {
     public void run() {
 
         try {
-            updateApplicationInfo();
+            ApplicationInfoUpdateInfo applicationInfoUpdateInfo = updateApplicationInfo();
+            updateApplications(applicationInfoUpdateInfo);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            updateApplications();
-        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
@@ -87,17 +85,12 @@ public class Updater implements Runnable {
     }
 
 
-    private void updateApplicationInfo() throws InterruptedException, ExecutionException, TimeoutException {
-        Set<ApplicationInfo> selectedApplications = getSelectedApplications();
-        ApplicationInfoUpdater updater = new ApplicationInfoUpdater(storeRegistry, jStoreClientRegistry, systemInfo);
+    private ApplicationInfoUpdateInfo updateApplicationInfo() throws InterruptedException, ExecutionException, TimeoutException {
+        ApplicationInfoUpdater updater = new ApplicationInfoUpdater(storeRegistry, jStoreClientRegistry, preSelectedApplicationRegistry, applicationManager, systemInfo);
         Future<ApplicationInfoUpdateInfo> future = threadPoolExecutor.submit(updater);
-        future.get(1200, TimeUnit.SECONDS);
+        return future.get(1200, TimeUnit.SECONDS);
     }
 
-    private Set<ApplicationInfo> getSelectedApplications() {
-        // TODO: implement
-        return new HashSet<>();
-    }
 
     private JREInfoUpdateInfo updateJREInfo() throws InterruptedException, ExecutionException, TimeoutException {
         // TODO: get list from installed applications
@@ -114,13 +107,15 @@ public class Updater implements Runnable {
         return new HashSet<>();
     }
 
-    private void updateApplications() throws InterruptedException {
-        Set<ApplicationInfo> selectedButOutdatedOracleApplicationVersions = getSelectedButOutdatedOracleApplicationVersions();
-        List<ApplicationUpdater> applicationUpdaters = selectedButOutdatedOracleApplicationVersions.stream()
-                .map(ApplicationUpdater::new)
-                .collect(Collectors.toList());
-        List<Future<ApplicationUpdateInfo>> futureList = threadPoolExecutor.invokeAll(applicationUpdaters, 20 * 60 * applicationUpdaters.size(), TimeUnit.SECONDS);
+    private void updateApplications(ApplicationInfoUpdateInfo applicationInfoUpdateInfo) throws InterruptedException {
+        for (Store store : storeRegistry.getStores()) {
+            JStoreClient jStoreClient = jStoreClientRegistry.getStoreClient(store);
+            List<ApplicationUpdater> applicationUpdaters = applicationInfoUpdateInfo.getUpgradableApplicationInfo(store).stream()
+                    .map(upgradableApplication -> new ApplicationUpdater(jStoreClient, upgradableApplication))
+                    .collect(Collectors.toList());
+            List<Future<ApplicationUpdateInfo>> futureList = threadPoolExecutor.invokeAll(applicationUpdaters, 20 * 60 * applicationUpdaters.size(), TimeUnit.SECONDS);
 //CompletableFuture.runAsync()
+        }
     }
 
     private Set<ApplicationInfo> getSelectedButOutdatedOracleApplicationVersions() {
@@ -130,7 +125,7 @@ public class Updater implements Runnable {
 
     private void updateJREs(JREInfoUpdateInfo jreInfoUpdateInfo) throws InterruptedException {
 
-        // TODO: iteratre
+        // TODO: iterate
         Store store = storeRegistry.getStores().iterator().next();
         JStoreClient jStoreClient = jStoreClientRegistry.getStoreClient(store);
 
@@ -139,8 +134,7 @@ public class Updater implements Runnable {
 //                .map(version -> new OracleJREUpdater(httpClient, version))
                 .map(upgradableJRE -> new JREUpdater(jStoreClient, upgradableJRE))
                 .collect(Collectors.toList());
-        List<Future<JREUpdateInfo>> futureList = threadPoolExecutor.invokeAll(jreUpdaters, 20 * 60 * jreUpdaters.size(), TimeUnit.SECONDS);
-
+        List<Future<CompletableFuture<JREUpdateInfo>>> futureList = threadPoolExecutor.invokeAll(jreUpdaters, 20 * 60 * jreUpdaters.size(), TimeUnit.SECONDS);
 
     }
 

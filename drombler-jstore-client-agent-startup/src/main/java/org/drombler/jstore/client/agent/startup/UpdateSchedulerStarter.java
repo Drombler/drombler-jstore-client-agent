@@ -6,6 +6,7 @@ import org.drombler.jstore.client.agent.model.PreSelectedApplicationRegistry;
 import org.drombler.jstore.client.agent.model.converter.StoreNormalizer;
 import org.drombler.jstore.client.agent.startup.commons.HttpClientUtils;
 import org.drombler.jstore.client.agent.startup.integration.JStoreClientRegistry;
+import org.drombler.jstore.client.agent.startup.managedcomponent.application.ApplicationManager;
 import org.drombler.jstore.protocol.StoreRegistry;
 import org.drombler.jstore.protocol.json.Agent;
 import org.drombler.jstore.protocol.json.PreSelectedApplication;
@@ -34,6 +35,7 @@ public class UpdateSchedulerStarter implements BootServiceStarter {
     private final ScheduledExecutorService scheduledExecutorService;
     private final StoreRegistry storeRegistry = new StoreRegistry();
     private final PreSelectedApplicationRegistry preSelectedApplicationRegistry = new PreSelectedApplicationRegistry();
+    private final ApplicationManager applicationManager;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final JStoreClientRegistry jStoreClientRegistry;
     private final HttpClient httpClient;
@@ -43,6 +45,7 @@ public class UpdateSchedulerStarter implements BootServiceStarter {
         this.scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         this.httpClient = HttpClientUtils.createHttpClient();
         this.jStoreClientRegistry = new JStoreClientRegistry(httpClient, objectMapper);
+        this.applicationManager = new ApplicationManager(configuration.getApplicationsInstallDirPath());
     }
 
     @Override
@@ -125,7 +128,7 @@ public class UpdateSchedulerStarter implements BootServiceStarter {
 
     @Override
     public void startAndWait() throws ExecutionException, InterruptedException, IOException {
-        Updater updater = new Updater(storeRegistry, jStoreClientRegistry, preSelectedApplicationRegistry);
+        Updater updater = new Updater(storeRegistry, jStoreClientRegistry, preSelectedApplicationRegistry, applicationManager);
         ScheduledFuture<?> scheduledFuture = scheduledExecutorService.scheduleWithFixedDelay(updater, 0, 24, TimeUnit.HOURS);
         scheduledFuture.get();
     }

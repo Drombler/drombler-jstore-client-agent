@@ -1,7 +1,7 @@
-package org.drombler.jstore.client.agent.startup.download.http;
+package org.drombler.jstore.client.agent.download.http;
 
-import org.drombler.jstore.client.agent.startup.download.DownloadId;
-import org.drombler.jstore.client.agent.startup.download.DownloadTask;
+import org.drombler.jstore.client.agent.download.DownloadId;
+import org.drombler.jstore.client.agent.download.DownloadTask;
 
 import java.net.http.HttpResponse;
 import java.nio.ByteBuffer;
