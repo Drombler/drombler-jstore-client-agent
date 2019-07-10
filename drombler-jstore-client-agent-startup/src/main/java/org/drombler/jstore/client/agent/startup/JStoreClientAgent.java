@@ -30,8 +30,8 @@ public class JStoreClientAgent extends DromblerClientStarter<JStoreClientAgentCo
 
     @Override
     protected ApplicationInstanceListener getApplicationInstanceListener() {
-        return additionalArgs -> {
-            if (additionalArgs.size() == 1 && additionalArgs.get(0).equals("stop")) {
+        return event -> {
+            if (event.getAdditionalArgs().size() == 1 && event.getAdditionalArgs().get(0).equals("stop")) {
                 stop();
             }
         };

@@ -11,18 +11,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class JStoreClientAgentConfiguration extends DromblerClientConfiguration {
-    private final Path applicationsInstallDirPath;
+    private final Path managedComponentsInstallDirPath;
 
     public JStoreClientAgentConfiguration(CommandLineArgs commandLineArgs) throws URISyntaxException, IOException, MissingPropertyException {
         super(commandLineArgs);
-        String applicationsInstallDirPathString = getUserConfigProps().getProperty("jstore.applications.installdir", "${user.home}/jstore-applications");
-        this.applicationsInstallDirPath = Paths.get(applicationsInstallDirPathString);
-        if (!Files.exists(applicationsInstallDirPath)) {
-            Files.createDirectories(applicationsInstallDirPath);
+        String managedComponentsInstallDirPathString = getUserConfigProps().getProperty("jstore.managedcomponents.installdir", System.getProperty("user.home") + "/jstore-managedcomponents");
+        System.out.println("Managed components install dir: " + managedComponentsInstallDirPathString);
+        this.managedComponentsInstallDirPath = Paths.get(managedComponentsInstallDirPathString);
+        if (!Files.exists(managedComponentsInstallDirPath)) {
+            Files.createDirectories(managedComponentsInstallDirPath);
         }
     }
 
-    public Path getApplicationsInstallDirPath() {
-        return applicationsInstallDirPath;
+    public Path getManagedComponentsInstallDirPath() {
+        return managedComponentsInstallDirPath;
     }
 }
